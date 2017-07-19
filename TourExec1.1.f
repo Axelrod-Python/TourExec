@@ -40,21 +40,21 @@ c Next few lines  are control parameters
       call Date(day)
       call TIME(timenow)
       write(6,100) Version, day, timenow
-100 format('  Ax TourExec Program Output, Version ',f6.2, '.', 1H, A10, A10)
+100   format('  Ax TourExec Program Output, Version ',f6.2, '.', 1H, A10, A10)
       RandomSeed = Jsecnds(0)                     ! uses elapsed time since midnight as random seed
 c   RandomSeed=66222                                ! Uses fixed random number
       Write(6,103) RandomSeed
-103 format(' RandomSeed = ', i16)
+103   format(' RandomSeed = ', i16)
 
       write(6,85) noise
-85  format(' Noise (per choice) = ', f8.4)
+85    format(' Noise (per choice) = ', f8.4)
 
       write(6, 104) ColType
-104 format(' Col Type, 1=TFT, 2=TF2F, 3=Random, 4=Pavlov. Col Type = ', i3)
+104   format(' Col Type, 1=TFT, 2=TF2F, 3=Random, 4=Pavlov. Col Type = ', i3)
       if (movereport=1)  write(6, 105)
-105 format(' Move report: 1 means R, 2 means T, 3  means S, 4 means P for column.')
+105   format(' Move report: 1 means R, 2 means T, 3  means S, 4 means P for column.')
       if (GameReport=1) write(6,101)
-101 format(' Rank  Game RScore CScore #ColR #ColT #ColS #ColP')
+101   format(' Rank  Game RScore CScore #ColR #ColT #ColS #ColP')
       ITotalColPoints = 0                                 ! Initialize Col's total points
       Do 30 row= minRow,maxRow                    ! normally 1 to 63
       rank = row
@@ -68,7 +68,7 @@ c   RandomSeed=66222                                ! Uses fixed random number
             JB = 0          ! Col's previous move, reported to row
             Do 10 ColOutcomeType = 1,4
             Tally(ColOutcomeType) = 0                   ! Zero Col's RTSP game count
-10  Continue            ! End Do tallyType
+10    Continue            ! End Do tallyType
             Do 15 Move = 1, Length(Game)
                 RandomNumber = RAN(RandomSeed)
                 RowChoice = KRowFunction(JB,Move, RowGameSc,ColGameSc,RandomNumber,Row,JA)
@@ -105,36 +105,36 @@ C  write game output
             ColPairSc=ColPairSc+ColGameSc
             if (GameReport=1) Write(6, 110)  Rank, Game, RowGameSc,
      1 ColGameSc, Tally(1), Tally(2), Tally(3), Tally(4)
-110 format(9i6, 10i3)
+110   format(9i6, 10i3)
       if (movereport .eq. 1) write(6, 112) (MoveRecord(ir), ir=1,length(game))
-112 format('   ', 10i2, 2H, 10i2, 2H, 10i2, 2H, 10i2)
-20  Continue        ! End Do Game
+112   format('   ', 10i2, 2H, 10i2, 2H, 10i2, 2H, 10i2)
+20    Continue        ! End Do Game
       if (GameReport=1) write(6, 115) RowPairSc, ColPairSc
       IRowPairSc(Row) = RowPairSc             !  total over 5 games
       IColPairSc(Row) = ColPairSc
       IColTourSc = IColTourSc +ColPairSc  ! running total of col's points
-115 format(' Totals over 5 games: RowPairSc= ',I7, ' ColPairSc = ', I7)
+115   format(' Totals over 5 games: RowPairSc= ',I7, ' ColPairSc = ', I7)
       if (GameReport=1) write (6, 120)
-120 format()
+120   format()
 
-30  Continue        ! End Do Row
+30    Continue        ! End Do Row
 
 C final report: calc tour score, write tour output
 
       Write(6, 135)
-135 format(' Rank    RowSc   ColSc   AveRowSc AveColSc 2ndRndTFT  2ndRndTFT-Col')
+135   format(' Rank    RowSc   ColSc   AveRowSc AveColSc 2ndRndTFT  2ndRndTFT-Col')
       Do 40 Row = minRow,maxRow
       IRowTourPairSc = IRowPairSc(Row)/5
       IColTourPairSc = IColPairSc(Row)/5
       ITotalColPoints =  ITotalColPoints + IColPairSc(Row)    ! accumulate col points
       Write(6, 140) Row, IRowPairSc(Row), IColPairSc(Row),IRowTourPairSc,
      2 IColTourPairSc, ActualTFTTourSc(Row), ActualTFTTourSc(Row)-IColTourPairSc
-140 format(i6, 4i8, '    ',i8,'    ',i8)
-40  continue        ! end final report
+140   format(i6, 4i8, '    ',i8,'    ',i8)
+40    continue        ! end final report
       TotalColPoints = ITotalColPoints                ! to make floating point (total over 63*5 games)
       ColTourSc =(TotalColPoints/5 )/63   !   Ave per game over 63 pairs
       write(6, 150) ColType,  ITotalColPoints, ColTourSc
-150 format(' Col Type= ', i4, '. Col Pts = ', i7, '   Col"s Tour Sc = ', f7.3)
+150   format(' Col Type= ', i4, '. Col Pts = ', i7, '   Col"s Tour Sc = ', f7.3)
       end   ! Main Program
 C-----------------------------
       Function KColFunction(J,M,K,L,R,IColType,JB)        ! Look up col rule, return col choice
@@ -170,7 +170,7 @@ c   coded by Ax 7/22-3/93. Assumes C on first move.
       if (J .eq. JB) KPavlovC = 0 ! coop iff other's previous choice= own previous ch
 C test3
 c   write(6,81) J, JB
-c81 format(2i3, 'j,jb from test3')
+c81   format(2i3, 'j,jb from test3')
       Return
       end
 c------------------------------------------
@@ -287,7 +287,7 @@ c   K92R=ITFTR(J,M,K,L,T,R)
       k92r = j
 c test 7/30
 c   write(6,77) j, k92r
-c77 format(' test k92r. j,k92r: ', 2i3)
+c77   format(' test k92r. j,k92r: ', 2i3)
       RETURN
      END
       FUNCTION K61R(ISPICK,ITURN,K,L,R, JA)
@@ -1830,7 +1830,7 @@ C       EDITED BY AX, 1.16.79
       K39R=JA       ! Added 7/32/93 to report own old value
 cc ax test
 c   write(6,77) m, step, substp
-c77 format(' test k39r. m, step, substp', 3i3)
+c77   format(' test k39r. m, step, substp', 3i3)
       IF(M.NE.1) GOTO 10
       STEP=1
       SUBSTP=1
@@ -1899,7 +1899,7 @@ C      LET US FIND BEST DEFENSE (HIGHEST SCORE)
       DO 150 I2=2,3
 cc ax test
 c   if (m.eq. 51) write(6,71302) m, step, substp, i1, i2, ok(i1), ok(i2)
-c71302  format(' test 71302 After 130. m, step, substp, i1, i2, ok(i1), ok(I2)', 7i3)
+c71302    format(' test 71302 After 130. m, step, substp, i1, i2, ok(i1), ok(I2)', 7i3)
       IF(OK(I1).EQ.0.OR. OK(I2).EQ.0) GOTO 150
       IF(OK(I1).GE.OK(I2)) GOTO 150
       IF(STEP.EQ.I1) STEP=I2
@@ -2819,7 +2819,7 @@ C EDITED FROM BASIC BY AX, 2/11/79
       GRASR=JA        ! Added 7/32/93 to report own old value
 c Next line for debugging
 c   if(moven. eq. 57)  write(6,99) jscor
-c99 format(' TEST from GRASR at move 57. jscor = ', i6)
+c99   format(' TEST from GRASR at move 57. jscor = ', i6)
       IF (MOVEN .NE. 1) GO TO 9997
       DO 9996 I = 1, 4
       NMOV(I) = 0
