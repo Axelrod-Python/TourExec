@@ -43,7 +43,7 @@ c Next few lines  are control parameters
       write(6,100) Version, day, timenow
 100   format('  Ax TourExec Program Output, Version ',f6.2, '.', 1H,
      1 A10, A10)
-      RandomSeed = Jsecnds(0)                     ! uses elapsed time since midnight as random seed
+      RandomSeed = secnds(0.0)                     ! uses elapsed time since midnight as random seed
 c   RandomSeed=66222                                ! Uses fixed random number
       Write(6,103) RandomSeed
 103   format(' RandomSeed = ', i16)
