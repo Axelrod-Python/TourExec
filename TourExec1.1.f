@@ -38,8 +38,7 @@ c Next few lines  are control parameters
       integer IRowPairSc(63), IColPairSc(63)              ! Integer total over 5 games
       real    AveRowPairSc(63), AveColPairSc(63)          ! real, truncated
       integer rowchoice, colchoice
-      call Date(day)
-      call TIME(timenow)
+      call date_and_time(day, timenow)
       write(6,100) Version, day, timenow
 100   format('  Ax TourExec Program Output, Version ',f6.2, '.', 1H,
      1 A10, A10)
