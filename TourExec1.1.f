@@ -1,63 +1,63 @@
 Program AxTest
-c   For  testings of PD tour program. 
+c   For  testings of PD tour program.
 c   Begun 7/19/93. Ver 1.0 begun 7/27 for nice rules as well as not nice rules
 c Compile: set directory. then: RUN tourexec2 -debug -saveall -ov -r
 
 c Changes to make:
 c   Add Almost-Pavlov and Almost-TFT to col rules
 
-    real Version /1.1/
+      real Version /1.1/
 c Next few lines  are control parameters
-    integer ColType/4/                                  ! 1=TFT, 2=TF2T, 3=Random, 4= Pavlov
-    integer MoveReport/0/                               ! 0= no report of moves, 1 = report moves
-    integer GameReport/0/                           ! 0 = no report of games 1= report games
-    real Noise/0./                                      ! prob a choice will be changed
-    integer minRow/1/                                   ! normally /1/ to run all rules
-    integer maxRow/63/                                  ! normally /63/ to run all rules
-    integer outcome(308)                                ! 1=R, 2=T, 3=S, 4=P for Column
-    integer length(5) /63,77,151,156,308/   ! Game Lengths in Tour
-    integer game                                            ! Game no. with this pair, 1 to 5
-    integer*4 RandomSeed                                    !               
-    integer Row, Rank                                   ! Row = Rank = 1..63 for 2nd round rules
-    integer RowGameScore, ColGameScore  ! Score in Current Game
-    integer Tally(4)                                        ! tally of col's outcomes for game
-    integer ColOutcomeType                                  ! 1=R, 2=T, 3=S, 4=P for Column
-    integer RowGameSc, ColGameSc        ! Scores in one game
-    integer RowPairSc, ColPairSc            ! Scores over 5 games
-    integer MoveRecord(308)             ! Moves of current game
-    character*9 day
-    character*8 timenow
-    integer ActualTFTTourSc(63)/453,453,453,453,453,  453,453,452,453,453,
+      integer ColType/4/                                  ! 1=TFT, 2=TF2T, 3=Random, 4= Pavlov
+      integer MoveReport/0/                               ! 0= no report of moves, 1 = report moves
+      integer GameReport/0/                           ! 0 = no report of games 1= report games
+      real Noise/0./                                      ! prob a choice will be changed
+      integer minRow/1/                                   ! normally /1/ to run all rules
+      integer maxRow/63/                                  ! normally /63/ to run all rules
+      integer outcome(308)                                ! 1=R, 2=T, 3=S, 4=P for Column
+      integer length(5) /63,77,151,156,308/   ! Game Lengths in Tour
+      integer game                                            ! Game no. with this pair, 1 to 5
+      integer*4 RandomSeed                                    !
+      integer Row, Rank                                   ! Row = Rank = 1..63 for 2nd round rules
+      integer RowGameScore, ColGameScore  ! Score in Current Game
+      integer Tally(4)                                        ! tally of col's outcomes for game
+      integer ColOutcomeType                                  ! 1=R, 2=T, 3=S, 4=P for Column
+      integer RowGameSc, ColGameSc        ! Scores in one game
+      integer RowPairSc, ColPairSc            ! Scores over 5 games
+      integer MoveRecord(308)             ! Moves of current game
+      character*9 day
+      character*8 timenow
+      integer ActualTFTTourSc(63)/453,453,453,453,453,  453,453,452,453,453,
      1 453,453,453,453,453,   449,453,452,450,453,
-     2 453,453,453,453,452,   453,446,453,449,453, 
+     2 453,453,453,453,452,   453,446,453,449,453,
      3 453,453,453,453,453,   453,453,453,452,453,
      4 453,453,453,453,453,   452,453,443,422,452,
      5 442,453,452,442,342,    398,377,388,438,155,
      6 376,341,198/
-    integer IRowPairSc(63), IColPairSc(63)              ! Integer total over 5 games
-    real    AveRowPairSc(63), AveColPairSc(63)          ! real, truncated
-    integer rowchoice, colchoice
-    call Date(day)
-    call TIME(timenow)
-    write(6,100) Version, day, timenow
-100 format('  Ax TourExec Program Output, Version ',f6.2, '.', 1H, A10, A10)    
+      integer IRowPairSc(63), IColPairSc(63)              ! Integer total over 5 games
+      real    AveRowPairSc(63), AveColPairSc(63)          ! real, truncated
+      integer rowchoice, colchoice
+      call Date(day)
+      call TIME(timenow)
+      write(6,100) Version, day, timenow
+100 format('  Ax TourExec Program Output, Version ',f6.2, '.', 1H, A10, A10)
     RandomSeed = Jsecnds(0)                     ! uses elapsed time since midnight as random seed
 c   RandomSeed=66222                                ! Uses fixed random number
     Write(6,103) RandomSeed
 103 format(' RandomSeed = ', i16)
 
-    write(6,85) noise
+      write(6,85) noise
 85  format(' Noise (per choice) = ', f8.4)
 
-    write(6, 104) ColType
+      write(6, 104) ColType
 104 format(' Col Type, 1=TFT, 2=TF2F, 3=Random, 4=Pavlov. Col Type = ', i3)
-    if (movereport=1)  write(6, 105) 
+      if (movereport=1)  write(6, 105)
 105 format(' Move report: 1 means R, 2 means T, 3  means S, 4 means P for column.')
-    if (GameReport=1) write(6,101)
+      if (GameReport=1) write(6,101)
 101 format(' Rank  Game RScore CScore #ColR #ColT #ColS #ColP')
     ITotalColPoints = 0                                 ! Initialize Col's total points
     Do 30 row= minRow,maxRow                    ! normally 1 to 63
-    rank = row
+      rank = row
     RowPairSc = 0
     ColPairSc = 0
 
@@ -71,7 +71,7 @@ c   RandomSeed=66222                                ! Uses fixed random number
 10  Continue            ! End Do tallyType
             Do 15 Move = 1, Length(Game)
                 RandomNumber = RAN(RandomSeed)
-                RowChoice = KRowFunction(JB,Move, RowGameSc,ColGameSc,RandomNumber,Row,JA)  
+                RowChoice = KRowFunction(JB,Move, RowGameSc,ColGameSc,RandomNumber,Row,JA)
                 if ( RAN(RandomSeed) &lt; noise ) RowChoice = 1-RowChoice  !  noise happened to Row
                 RandomNumber = RAN(RandomSeed)
                 ColChoice = KColFunction(JA,Move,ColGameSc,RowGameSc,RandomNumber,ColType,JB)
@@ -83,7 +83,7 @@ c999    Format(' move, rowchoice, colchoice ', 3i6)
                 Tally(ColOutcomeType) = Tally(ColOutcomeType) + 1
                 JA = RowChoice          ! Reported to col next time
                 JB = ColChoice              ! Reported to row next time
-                
+
                 Select Case (ColOutcomeType)
                     Case (1)                    ! Both Get R
                         RowGameSc=RowGameSc+3
@@ -103,25 +103,25 @@ c999    Format(' move, rowchoice, colchoice ', 3i6)
 C  write game output
             RowPairSc=RowPairSc+RowGameSc        ! sum over 5 games
             ColPairSc=ColPairSc+ColGameSc
-            if (GameReport=1) Write(6, 110)  Rank, Game, RowGameSc, 
-     1 ColGameSc, Tally(1), Tally(2), Tally(3), Tally(4) 
+            if (GameReport=1) Write(6, 110)  Rank, Game, RowGameSc,
+     1 ColGameSc, Tally(1), Tally(2), Tally(3), Tally(4)
 110 format(9i6, 10i3)
-    if (movereport .eq. 1) write(6, 112) (MoveRecord(ir), ir=1,length(game))
+      if (movereport .eq. 1) write(6, 112) (MoveRecord(ir), ir=1,length(game))
 112 format('   ', 10i2, 2H, 10i2, 2H, 10i2, 2H, 10i2)
 20  Continue        ! End Do Game
-    if (GameReport=1) write(6, 115) RowPairSc, ColPairSc
+      if (GameReport=1) write(6, 115) RowPairSc, ColPairSc
     IRowPairSc(Row) = RowPairSc             !  total over 5 games
     IColPairSc(Row) = ColPairSc
     IColTourSc = IColTourSc +ColPairSc  ! running total of col's points
-115 format(' Totals over 5 games: RowPairSc= ',I7, ' ColPairSc = ', I7)     
-    if (GameReport=1) write (6, 120)
+115 format(' Totals over 5 games: RowPairSc= ',I7, ' ColPairSc = ', I7)
+      if (GameReport=1) write (6, 120)
 120 format()
 
 30  Continue        ! End Do Row
 
 C final report: calc tour score, write tour output
 
-    Write(6, 135) 
+    Write(6, 135)
 135 format(' Rank    RowSc   ColSc   AveRowSc AveColSc 2ndRndTFT  2ndRndTFT-Col')
     Do 40 Row = minRow,maxRow
     IRowTourPairSc = IRowPairSc(Row)/5
@@ -133,17 +133,17 @@ C final report: calc tour score, write tour output
 40  continue        ! end final report
     TotalColPoints = ITotalColPoints                ! to make floating point (total over 63*5 games)
     ColTourSc =(TotalColPoints/5 )/63   !   Ave per game over 63 pairs
-    write(6, 150) ColType,  ITotalColPoints, ColTourSc
+      write(6, 150) ColType,  ITotalColPoints, ColTourSc
 150 format(' Col Type= ', i4, '. Col Pts = ', i7, '   Col"s Tour Sc = ', f7.3)
-    end   ! Main Program
+      end   ! Main Program
 C-----------------------------
     Function KColFunction(J,M,K,L,R,IColType,JB)        ! Look up col rule, return col choice
-    if (icoltype. eq. 1) KColFunction= KTitForTatC(J,M,K,L,R)
-    if (icoltype .eq. 2) KColFunction= KTF2TC(J,M,K,L,R)
-    if (icoltype .eq. 3) KColFunction= KRandomC(J,M,K,L,R)
-    if (icoltype .eq. 4) KColFunction= KPavlovC(J,M,K,L,R, JB)   ! JB is own, col's prev move
-    return
-    end
+      if (icoltype. eq. 1) KColFunction= KTitForTatC(J,M,K,L,R)
+      if (icoltype .eq. 2) KColFunction= KTF2TC(J,M,K,L,R)
+      if (icoltype .eq. 3) KColFunction= KRandomC(J,M,K,L,R)
+      if (icoltype .eq. 4) KColFunction= KPavlovC(J,M,K,L,R, JB)   ! JB is own, col's prev move
+      return
+      end
 c --------------------------------------------------------------------------------
     Function KTitForTatC(J,M,K,L,R)     ! TFT, Row Rule
     KTitForTatC = J
@@ -151,128 +151,128 @@ c ------------------------------------------------------------------------------
     End     ! TFT Col Rule
 c --------------------------------------------------------------------------------
     Function KTF2TC(J,M,K,L,R)          !  Tit for Two Tats, Col rule
-    if(m .eq. 1)  jold = 0
-    ktf2tc = 0
-    if ((jold .EQ. 1) .and. (j .eq. 1)) ktf2tc = 1
-    jold = j
+      if(m .eq. 1)  jold = 0
+      ktf2tc = 0
+      if ((jold .EQ. 1) .and. (j .eq. 1)) ktf2tc = 1
+      jold = j
     Return
     End     ! TF2T Col Rule
 c --------------------------------------------------------------------------------
     Function KRandomC(J,M,K,L,R)        ! Random, Row Rule
     KRandomC = 0
-    if (R .LE. .5) KRandomC = 1
+      if (R .LE. .5) KRandomC = 1
     Return
     End     ! Random Col Rule
 C --------------------------------------------------------
     Function KPavlovC(J,M,K,L,R,JB)     ! Pavlov, JB is own (Col) previous move
-c   coded by Ax 7/22-3/93. Assumes C on first move. 
+c   coded by Ax 7/22-3/93. Assumes C on first move.
     KPavlovC = 1
-    if (J .eq. JB) KPavlovC = 0 ! coop iff other's previous choice= own previous ch
+      if (J .eq. JB) KPavlovC = 0 ! coop iff other's previous choice= own previous ch
 C test3
 c   write(6,81) J, JB
 c81 format(2i3, 'j,jb from test3')
     Return
-    end
+      end
 c------------------------------------------
 
 
 c---------------------------------------------------------
     Function KRowFunction(J,M,K,L,R,iRow,JA)        ! Look up row rule, return rowchoice
 c add JA to row fcns to report their own previous move, 7/23/93
-    if (irow&gt;32 ) goto 133
-    if (irow&gt;16 ) goto 117
-    if (irow&gt;8 ) goto 109
-    if (irow&gt;4 ) goto 105
-    if(irow=1) KRowFunction = K92R(J,M,K,L,R,JA)
-    if(irow=2) KRowFunction = K61R(J,M,K,L,R,JA)
-    if(irow=3) KRowFunction = K42R(J,M,K,L,R,JA)
-    if(irow=4) KRowFunction = K49R(J,M,K,L,R,JA)
-    return
+      if (irow&gt;32 ) goto 133
+      if (irow&gt;16 ) goto 117
+      if (irow&gt;8 ) goto 109
+      if (irow&gt;4 ) goto 105
+      if(irow=1) KRowFunction = K92R(J,M,K,L,R,JA)
+      if(irow=2) KRowFunction = K61R(J,M,K,L,R,JA)
+      if(irow=3) KRowFunction = K42R(J,M,K,L,R,JA)
+      if(irow=4) KRowFunction = K49R(J,M,K,L,R,JA)
+      return
 105 if(irow=5) KRowFunction = K44R(J,M,K,L,R,JA)
-    if(irow=6) KRowFunction = K60R(J,M,K,L,R,JA)
-    if(irow=7) KRowFunction = K41R(J,M,K,L,R,JA)
-    if(irow=8) KRowFunction = K75R(J,M,K,L,R,JA)
-    return
+      if(irow=6) KRowFunction = K60R(J,M,K,L,R,JA)
+      if(irow=7) KRowFunction = K41R(J,M,K,L,R,JA)
+      if(irow=8) KRowFunction = K75R(J,M,K,L,R,JA)
+      return
 109 if(irow&gt;12) goto 113
-    if(irow=9) KRowFunction = K84R(J,M,K,L,R,JA)
-    if(irow=10) KRowFunction = K32R(J,M,K,L,R,JA)
-    if(irow=11) KRowFunction = K35R(J,M,K,L,R,JA)
-    if(irow=12) KRowFunction = K68R(J,M,K,L,R,JA)
-    return
+      if(irow=9) KRowFunction = K84R(J,M,K,L,R,JA)
+      if(irow=10) KRowFunction = K32R(J,M,K,L,R,JA)
+      if(irow=11) KRowFunction = K35R(J,M,K,L,R,JA)
+      if(irow=12) KRowFunction = K68R(J,M,K,L,R,JA)
+      return
 113 if(irow=13) KRowFunction = K72R(J,M,K,L,R,JA)
-    if(irow=14) KRowFunction = K46R(J,M,K,L,R,JA)
-    if(irow=15) KRowFunction = K83R(J,M,K,L,R,JA)
-    if(irow=16) KRowFunction = K47R(J,M,K,L,R,JA)
-    return
+      if(irow=14) KRowFunction = K46R(J,M,K,L,R,JA)
+      if(irow=15) KRowFunction = K83R(J,M,K,L,R,JA)
+      if(irow=16) KRowFunction = K47R(J,M,K,L,R,JA)
+      return
 117     if (irow&gt;24 ) goto 125
-    if (irow&gt;20 ) goto 121
-    if(irow=17) KRowFunction = K64R(J,M,K,L,R,JA)
-    if(irow=18) KRowFunction = K51R(J,M,K,L,R,JA)
-    if(irow=19) KRowFunction = K78R(J,M,K,L,R,JA)
-    if(irow=20) KRowFunction = K66R(J,M,K,L,R,JA)
-    return
+      if (irow&gt;20 ) goto 121
+      if(irow=17) KRowFunction = K64R(J,M,K,L,R,JA)
+      if(irow=18) KRowFunction = K51R(J,M,K,L,R,JA)
+      if(irow=19) KRowFunction = K78R(J,M,K,L,R,JA)
+      if(irow=20) KRowFunction = K66R(J,M,K,L,R,JA)
+      return
 121 if(irow=21) KRowFunction = K58R(J,M,K,L,R,JA)
-    if(irow=22) KRowFunction = K88R(J,M,K,L,R,JA)
-    if(irow=23) KRowFunction = K31R(J,M,K,L,R,JA)
-    if(irow=24) KRowFunction = K90R(J,M,K,L,R,JA)
-    return
+      if(irow=22) KRowFunction = K88R(J,M,K,L,R,JA)
+      if(irow=23) KRowFunction = K31R(J,M,K,L,R,JA)
+      if(irow=24) KRowFunction = K90R(J,M,K,L,R,JA)
+      return
 125 if (irow&gt;28 ) goto 129
-    if(irow=25) KRowFunction = K39R(J,M,K,L,R,JA)
-    if(irow=26) KRowFunction = K79R(J,M,K,L,R,JA)
-    if(irow=27) KRowFunction = K67R(J,M,K,L,R,JA)
-    if(irow=28) KRowFunction = K86R(J,M,K,L,R,JA)
-    return
+      if(irow=25) KRowFunction = K39R(J,M,K,L,R,JA)
+      if(irow=26) KRowFunction = K79R(J,M,K,L,R,JA)
+      if(irow=27) KRowFunction = K67R(J,M,K,L,R,JA)
+      if(irow=28) KRowFunction = K86R(J,M,K,L,R,JA)
+      return
 129 if(irow=29) KRowFunction = K69R(J,M,K,L,R,JA)
-    if(irow=30) KRowFunction = K91R(J,M,K,L,R,JA)
-    if(irow=31) KRowFunction = K57R(J,M,K,L,R,JA)
-    if(irow=32) KRowFunction = K70R(J,M,K,L,R,JA)
-    return
+      if(irow=30) KRowFunction = K91R(J,M,K,L,R,JA)
+      if(irow=31) KRowFunction = K57R(J,M,K,L,R,JA)
+      if(irow=32) KRowFunction = K70R(J,M,K,L,R,JA)
+      return
 133     if (irow&gt;48 ) goto 149
-    if (irow&gt;40 ) goto 141
-    if (irow&gt;36 ) goto 137
-    if(irow=33) KRowFunction = K85R(J,M,K,L,R,JA)
-    if(irow=34) KRowFunction = K38R(J,M,K,L,R,JA)
-    if(irow=35) KRowFunction = K40R(J,M,K,L,R,JA)
-    if(irow=36) KRowFunction = K80R(J,M,K,L,R,JA)
-    return
+      if (irow&gt;40 ) goto 141
+      if (irow&gt;36 ) goto 137
+      if(irow=33) KRowFunction = K85R(J,M,K,L,R,JA)
+      if(irow=34) KRowFunction = K38R(J,M,K,L,R,JA)
+      if(irow=35) KRowFunction = K40R(J,M,K,L,R,JA)
+      if(irow=36) KRowFunction = K80R(J,M,K,L,R,JA)
+      return
 137 if(irow=37) KRowFunction = K37R(J,M,K,L,R,JA)
-    if(irow=38) KRowFunction = K56R(J,M,K,L,R,JA)
-    if(irow=39) KRowFunction = K43R(J,M,K,L,R,JA)
-    if(irow=40) KRowFunction = K59R(J,M,K,L,R,JA)
-    return
+      if(irow=38) KRowFunction = K56R(J,M,K,L,R,JA)
+      if(irow=39) KRowFunction = K43R(J,M,K,L,R,JA)
+      if(irow=40) KRowFunction = K59R(J,M,K,L,R,JA)
+      return
 141 if(irow&gt;44) goto 145
-    if(irow=41) KRowFunction = K73R(J,M,K,L,R,JA)
-    if(irow=42) KRowFunction = K55R(J,M,K,L,R,JA)
-    if(irow=43) KRowFunction = K81R(J,M,K,L,R,JA)
-    if(irow=44) KRowFunction = K87R(J,M,K,L,R,JA)
-    return
+      if(irow=41) KRowFunction = K73R(J,M,K,L,R,JA)
+      if(irow=42) KRowFunction = K55R(J,M,K,L,R,JA)
+      if(irow=43) KRowFunction = K81R(J,M,K,L,R,JA)
+      if(irow=44) KRowFunction = K87R(J,M,K,L,R,JA)
+      return
 145 if(irow=45) KRowFunction = K53R(J,M,K,L,R,JA)
-    if(irow=46) KRowFunction = K76R(J,M,K,L,R,JA)
-    if(irow=47) KRowFunction = K65R(J,M,K,L,R,JA)
-    if(irow=48) KRowFunction = K52R(J,M,K,L,R,JA)
-    return
+      if(irow=46) KRowFunction = K76R(J,M,K,L,R,JA)
+      if(irow=47) KRowFunction = K65R(J,M,K,L,R,JA)
+      if(irow=48) KRowFunction = K52R(J,M,K,L,R,JA)
+      return
 149     if (irow&gt;56 ) goto 157
-    if (irow&gt;52 ) goto 153
-    if(irow=49) KRowFunction = K82R(J,M,K,L,R,JA)
-    if(irow=50) KRowFunction = K45R(J,M,K,L,R,JA)
-    if(irow=51) KRowFunction = K62R(J,M,K,L,R,JA)
-    if(irow=52) KRowFunction = K34R(J,M,K,L,R,JA)
-    return
+      if (irow&gt;52 ) goto 153
+      if(irow=49) KRowFunction = K82R(J,M,K,L,R,JA)
+      if(irow=50) KRowFunction = K45R(J,M,K,L,R,JA)
+      if(irow=51) KRowFunction = K62R(J,M,K,L,R,JA)
+      if(irow=52) KRowFunction = K34R(J,M,K,L,R,JA)
+      return
 153 if(irow=53) KRowFunction = K48R(J,M,K,L,R,JA)
-    if(irow=54) KRowFunction = K50R(J,M,K,L,R,JA)
-    if(irow=55) KRowFunction = K77R(J,M,K,L,R,JA)
-    if(irow=56) KRowFunction = K89R(J,M,K,L,R,JA)
-    return
+      if(irow=54) KRowFunction = K50R(J,M,K,L,R,JA)
+      if(irow=55) KRowFunction = K77R(J,M,K,L,R,JA)
+      if(irow=56) KRowFunction = K89R(J,M,K,L,R,JA)
+      return
 157     if (irow&gt;60) goto 161
-    if(irow=57) KRowFunction = K63R(J,M,K,L,R,JA)
-    if(irow=58) KRowFunction = K54R(J,M,K,L,R,JA)
-    if(irow=59) KRowFunction = K33R(J,M,K,L,R,JA)
-    if(irow=60) KRowFunction = K71R(J,M,K,L,R,JA)
-    return
+      if(irow=57) KRowFunction = K63R(J,M,K,L,R,JA)
+      if(irow=58) KRowFunction = K54R(J,M,K,L,R,JA)
+      if(irow=59) KRowFunction = K33R(J,M,K,L,R,JA)
+      if(irow=60) KRowFunction = K71R(J,M,K,L,R,JA)
+      return
 161 if(irow=61) KRowFunction = K74R(J,M,K,L,R,JA)
-    if(irow=62) KRowFunction = K93R(J,M,K,L,R,JA)
-    if(irow=63) KRowFunction = K36R(J,M,K,L,R,JA)
-    return
+      if(irow=62) KRowFunction = K93R(J,M,K,L,R,JA)
+      if(irow=63) KRowFunction = K36R(J,M,K,L,R,JA)
+      return
     END
 c----------------------------------------------------
 C====================================================
@@ -283,8 +283,8 @@ C TYPED BY AX 3/27/79 (SAME AS ROUND ONE TIT FOR TAT)
 c replaced by actual code, Ax 7/27/93
 c  T=0
 c   K92R=ITFTR(J,M,K,L,T,R)
-    k92r=0
-    k92r = j
+      k92r=0
+      k92r = j
 c test 7/30
 c   write(6,77) j, k92r
 c77 format(' test k92r. j,k92r: ', 2i3)
@@ -293,7 +293,7 @@ c77 format(' test k92r. j,k92r: ', 2i3)
       FUNCTION K61R(ISPICK,ITURN,K,L,R, JA)
 C BY DANNY C. CHAMPION
 C TYPED BY JM 3/27/79
-    k61r=ja    ! Added 7/27/93 to report own old value
+      k61r=ja    ! Added 7/27/93 to report own old value
       IF (ITURN .EQ. 1) K61R = 0
       IF (ISPICK .EQ. 0) ICOOP = ICOOP + 1
       IF (ITURN .LE. 10) RETURN
@@ -309,7 +309,7 @@ C TYPED BY JM 3/27/79
 C BY OTTO BORUFSEN
 C TYPED FROM FORTRAN BY AX, 1/25/79
       DIMENSION MHIST(2,2)
-    k42r=ja    ! Added 7/27/93 to report own old value
+      k42r=ja    ! Added 7/27/93 to report own old value
 C INITIALIZE FIRST MOVE
       IF(MOVEN.NE.1)GOTO 20
          L3MOV=0
@@ -397,7 +397,7 @@ C I DEFECT.
        FUNCTION K49R(J,M,K,L,R, JA)
 C BY ROB CAVE
 C TYPED BY JM
-    k49r=ja    ! Added 7/27/93 to report own old value
+      k49r=ja    ! Added 7/27/93 to report own old value
       IF (M .EQ. 1) JDSUM = 0
 C JDSUM IS THE TOTAL NUMBER OF DEFECTIONS SO FAR
       IF (J .EQ. 1) JDSUM = JDSUM + 1
@@ -416,7 +416,7 @@ C TO BE RANDOM, THEN GIVE UP
       FUNCTION K44R(J,M,K,L,R, JA)
 C BY WM. ADAMS
 C EDITED FROM BASIC BY AX, 1/26/79
-    k44r=ja    ! Added 7/27/93 to report own old value
+      k44r=ja    ! Added 7/27/93 to report own old value
       IF(M.NE.1) GOTO 520
 C COUNT HIS DEFECTS
       MC=0
@@ -443,7 +443,7 @@ C ANOTHER CHANCE WITH PROB. P
       FUNCTION K60R(J,M,K,L,R, JA)
 C BY JIM GRAASKAMP AND KEN KATZEN
 C FROM CARDS BY JM 2/22/79
-    k60r=ja    ! Added 7/27/93 to report own old value
+      k60r=ja    ! Added 7/27/93 to report own old value
       IF (M-1)1,1,2
 1     ID=0
       K60R=0
@@ -470,7 +470,7 @@ C FROM CARDS BY JM 2/22/79
 C BY HERB WEINER
 C TYPED BY AX, 1/29/79
       INTEGER LAST(12)
-    k41r=ja    ! Added 7/27/93 to report own old value
+      k41r=ja    ! Added 7/27/93 to report own old value
       IF(M.NE.1)GOTO 10
       ICASE=1
       IFORGV=0
@@ -499,7 +499,7 @@ C TYPED BY AX, 1/29/79
       FUNCTION K84R(JP,M,IS,JS,R, JA)
 C BY T NICOLAUS TIDEMAN AND PAULA CHIERUZZI
 C TYPED BY JM 3/31/79
-    k84r=ja    ! Added 7/27/93 to report own old value
+      k84r=ja    ! Added 7/27/93 to report own old value
       K84R = 1
       IF (M .GT. 1) GOTO 2
       ISIG = 0
@@ -534,7 +534,7 @@ C TYPED BY JM 3/31/79
       FUNCTION K32R(J,M,K,L,R, JA)
 C BY CHARLES KLUEPFEL
 C EDITED FROM BASIC BY AX, 1.19.79
-    k32r=ja    ! Added 7/27/93 to report own old value
+      k32r=ja    ! Added 7/27/93 to report own old value
       IF(M.GT.1) GO TO 520
 C # OF HIS COOPS AFTER MY DEF.
       C1=0
@@ -600,7 +600,7 @@ C PUSH BACK CHOICES
       FUNCTION K35R(J,M,K,L,R, JA)
 C BY ABRAHAM GETZLER
 C TYPED FROM FORTRAN BY AX, 1,17,79
-    k35r=ja    ! Added 7/27/93 to report own old value
+      k35r=ja    ! Added 7/27/93 to report own old value
       IF(M.EQ.1) FLACK=0.
 C FLACK IS THE RELATIVE RECENT UNTRUSTWORTHINESS OF MY PPONENT
       FLACK = (FLACK + J) * .5
@@ -613,7 +613,7 @@ C DEFECTIONS HAVE A HALF-LIFE OF ONE ROUND
 C BY FRANSOIS LEYVRAZ
 C EDITED FROM BASIC BY AX, 3/10/79
 C TYPED BY JM 3/16/79
-    k68r=ja    ! Added 7/27/93 to report own old value
+      k68r=ja    ! Added 7/27/93 to report own old value
       IF (M .EQ. 1) GOTO 600
       IF (J1 * J .EQ. 1) GOTO 540
       IF (J2 * 2 + J1 + J * 2 + J .EQ. 1) GOTO 550
@@ -639,7 +639,7 @@ C TYPED BY JM 3/16/79
       FUNCTION K72R(J,M,K,L,R, JA)
 C BY EDWARD C WHITE, JR.
 C TYPED BY JM 3/22/79; COR BY AX 3/31/79
-    k72r=ja    ! Added 7/27/93 to report own old value
+      k72r=ja    ! Added 7/27/93 to report own old value
       IF (M .EQ. 1) JOLD = 0
       K72R = 0
       IF (M .EQ. 1) JCOUNT = 0
@@ -653,7 +653,7 @@ C TYPED BY JM 3/22/79; COR BY AX 3/31/79
        FUNCTION K46R(J,M,K,L,R, JA)
 C BY GRAHAM J. EATHERLEY
 C TYPED FROM FORTRAN BY AX, 1/26/79
-    k46r=ja    ! Added 7/27/93 to report own old value
+      k46r=ja    ! Added 7/27/93 to report own old value
       IF(M.EQ.1) NJ=0
       NJ=NJ+J
       K46R=0
@@ -666,7 +666,7 @@ C TYPED FROM FORTRAN BY AX, 1/26/79
 C BY PAUL E BLACK
 C TYPED BY JM 3/31/79
     DIMENSION JHIS(5)
-    k83r=ja    ! Added 7/27/93 to report own old value
+      k83r=ja    ! Added 7/27/93 to report own old value
       IF (MOVEN .GT. 5) GOTO 20
       IF (MOVEN .NE. 1) GOTO 10
       JTOT = 0
@@ -690,7 +690,7 @@ C TYPED BY JM 3/1/79
       IMPLICIT INTEGER (A-Z)
       REAL R
       DIMENSION A(2,2)
-    k64r=ja    ! Added 7/27/93 to report own old value
+      k64r=ja    ! Added 7/27/93 to report own old value
       IF (M .GT. 1) GOTO 640
       E = 0
       F = 0
@@ -718,7 +718,7 @@ C TYPED BY JM 3/1/79
        FUNCTION K66R(J,M,K,L,R, JA)
 C BY RAY MIKKELSON
 C TYPED BY JM 3/16/80
-    k66r=ja    ! Added 7/27/93 to report own old value
+      k66r=ja    ! Added 7/27/93 to report own old value
       IF (M .GT. 1) GOTO 20
       D = 0
       J2 = -3
@@ -741,7 +741,7 @@ C TYPED BY JM 3/16/80
     FUNCTION K58R(J,M,K,L,R, JA)
 C BY GLEN ROWSAM
 C TYPED BY JM
-    k58r=ja    ! Added 7/27/93 to report own old value
+      k58r=ja    ! Added 7/27/93 to report own old value
     IF (M .GT. 1) GOTO 99
     KAM = 0
     NPHA = 0
@@ -771,7 +771,7 @@ C TYPED BY JM
 C BY SCOTT APPOLD
 C EDITED FROM NEAR-FORTRAN BY AX 3/27/79
 C TYPED BY JM 3/31/79
-    k88r=ja    ! Added 7/27/93 to report own old value
+      k88r=ja    ! Added 7/27/93 to report own old value
       K88R = 0
       IF (M .NE. 1) GOTO 10
       MMC = 0
@@ -808,7 +808,7 @@ C TYPED BY JM 3/31/79
       FUNCTION K31R(J,M,K,L,R, JA)
 C BY PAULA GAIL GRISELL
 C  EDITED FROM BASIC BY AX, 1.17.79
-    k31r=ja    ! Added 7/27/93 to report own old value
+      k31r=ja    ! Added 7/27/93 to report own old value
       IF(M.EQ.1) S=0.
       S=S+J
       A=S/M
@@ -819,12 +819,12 @@ C  EDITED FROM BASIC BY AX, 1.17.79
     FUNCTION K90R(J,M,K,L,R, JA)
 C BY JOHN MAYNARD SMITH
 C TYPED BY AX 3/27/79 (SAME AS ROUND ONE TIT FOR TWO TATS)
-    k90r=ja    ! Added 7/27/93 to report own old value
+      k90r=ja    ! Added 7/27/93 to report own old value
 C recoded by Ax 7/27/93
-    if(m.eq.1) jold=0
-    k90r=0
-    if((jold.eq.1).and.(j.eq.1)) k90r=1
-    jold=j
+      if(m.eq.1) jold=0
+      k90r=0
+      if((jold.eq.1).and.(j.eq.1)) k90r=1
+      jold=j
      RETURN
     END
       FUNCTION K79R(J,M,K,L,R, JA)
@@ -832,7 +832,7 @@ C BY DENNIS AMBUEHL AND KEVIN HICKEY
 C FROM CARDS BY JM 3/16/79
       DIMENSION JBACK(5)
 C      COOPERATES IF OPPONENT COOPERATED ON MAJORITY OF LAST PLAYS
-    k79r=ja    ! Added 7/27/93 to report own old value
+      k79r=ja    ! Added 7/27/93 to report own old value
       IF (M.EQ.1) GO TO 3000
       IF (M.LT.6) GO TO 4000
       I1 = 0
@@ -855,7 +855,7 @@ C      COOPERATES IF OPPONENT COOPERATED ON MAJORITY OF LAST PLAYS
 C BY BERNARD GROFMAN
 C FROM CARDS BY JM 3/27/79
         DIMENSION IOPPNT(999)
-    k86r=ja    ! Added 7/27/93 to report own old value
+      k86r=ja    ! Added 7/27/93 to report own old value
         IOPPNT(MOVEN) = JPICK
         MYOLD = K86R
         IF (MOVEN .GT. 2) GOTO 10
@@ -879,7 +879,7 @@ C FROM CARDS BY JM 3/27/79
 C BY JONATHAN PINKLEY
 C MODIFIED FROM K15C BY JM 3/27/79
       DIMENSION IPOL(11,4), QC(4), QN(4), E(11)
-    k91r=ja    ! Added 7/27/93 to report own old value
+      k91r=ja    ! Added 7/27/93 to report own old value
       IF (M .NE. 1) GO TO 30
 C INITIAL BELIEFS
       X = .999
@@ -958,19 +958,19 @@ c   T=0
 c    K57R=NYDEGR(J,M,K,L,T,R)
 c    RETURN
 c   END
-    k57r=ja    ! Added 7/27/93 to report own old value
-    if(m.ne.1) goto 5
-    k57r = 0
-    n = 0
+      k57r=ja    ! Added 7/27/93 to report own old value
+      if(m.ne.1) goto 5
+      k57r = 0
+      n = 0
 c update 3 move history
     5   N = 4 * (n-16*(N/16)) + 2 * k57r + J
-    if(m.gt.3) goto 8
-    k57r=j
-    if(m.eq.3 .and. n.eq.6) k57r=1
-    return
+      if(m.gt.3) goto 8
+      k57r=j
+      if(m.eq.3 .and. n.eq.6) k57r=1
+      return
 c coop if 0, 27, 28, 32, 40-4, 46-8, 56-7,59-60,62-63
    8    k57r=1
-    if(n-39) 10,110,50
+      if(n-39) 10,110,50
  10 if(n) 100,100,20
  20 if(n-28) 30,100,40
  30 if(n-27) 110,100,100
@@ -982,12 +982,12 @@ c coop if 0, 27, 28, 32, 40-4, 46-8, 56-7,59-60,62-63
  90 if(n-61) 100,110,100
  100    k57r = 0
  110    return
-    end
+      end
       FUNCTION K70R(J,M,K,L,R, JA)
 C BY ROBERT PEBLY
 C EDITED FROM BASIC BY AX 3/10/79
 C TYPED BY JM 3/16/79
-    k70r=ja    ! Added 7/27/93 to report own old value
+      k70r=ja    ! Added 7/27/93 to report own old value
       IF (M .EQ. 1) JZ = 0
       IF (JZ .EQ. J) GOTO 510
       K70R = 0
@@ -1004,7 +1004,7 @@ C TYPED BY JM 4/4/79
 C INITIALIZE ON FIRST MOVE AND COOPERATE
       IMPLICIT REAL (A-Z)
       INTEGER J,M,K,L,K85R
-    k85r=ja    ! Added 7/27/93 to report own old value
+      k85r=ja    ! Added 7/27/93 to report own old value
       IF (M .NE. 1) GOTO 100
       J2 = 0
       J4 = 0
@@ -1143,7 +1143,7 @@ C RULE: DEFECT FOREVER AFTER THREE CONSECUTIVE
 C DEFECTIONS BY OPPONENT
 C JHIS STORES LAST THREE OPPONENT MOVES AS 4*J3 + 2*J2 +J1
 C WHERE J1 IS MOST RECENT MOVE AND J3 IS LEAST RECENT
-    k38r=ja    ! Added 7/27/93 to report own old value
+      k38r=ja    ! Added 7/27/93 to report own old value
       IF(M.NE.1) GO TO 10
       MOVE=0
       JHIS=0
@@ -1160,7 +1160,7 @@ C WHERE J1 IS MOST RECENT MOVE AND J3 IS LEAST RECENT
        FUNCTION K40R(J,M,K,L,R, JA)
 C BY ROBERT ADAMS
 C EDITED FROM BASIC BY AX, 1,18,79
-    k40r=ja    ! Added 7/27/93 to report own old value
+      k40r=ja    ! Added 7/27/93 to report own old value
       IF(M.NE.1) GO TO 505
       S=3
       W=0
@@ -1200,7 +1200,7 @@ c Ax added ()
     FUNCTION K80R(J,M,K,L,R, JA)
 C BY ROBYN M DAWES AND MARK BATELL
 C TYPED BY JM 3/22/79
-    k80r=ja    ! Added 7/27/93 to report own old value
+      k80r=ja    ! Added 7/27/93 to report own old value
       IF (M .EQ. 1) GOTO 10
       IF (MODE .EQ. 1) GOTO 35
       IF (J .EQ. 1) GOTO 20
@@ -1229,7 +1229,7 @@ C TYPED BY JM 3/22/79
 C BY GEORGE LEFEVRE
 C EDITED FROM BASIC BY AX, 2/11/79
 C TYPED BY JM
-    k37r=ja    ! Added 7/27/93 to report own old value
+      k37r=ja    ! Added 7/27/93 to report own old value
       IF  (M .GT. 1) GOTO 500
       ND = 0
 500   K37R = 0
@@ -1247,7 +1247,7 @@ C TYPED BY JM
       REAL GOOD,BAD,C,ALT
       INTEGER DEFECT, COOP
       INTEGER TOTCOP,TOTDEF
-    k56r=ja    ! Added 7/27/93 to report own old value
+      k56r=ja    ! Added 7/27/93 to report own old value
       IF (MOVEN - 2) 1,4,2
 1     GOOD = 1.0
       BAD = 0.0
@@ -1295,7 +1295,7 @@ c     END
       REAL GOOD,BAD,C,ALT
       INTEGER DEFECT, COOP
       INTEGER TOTCOP,TOTDEF
-    k59r=ja    ! Added 7/27/93 to report own old value
+      k59r=ja    ! Added 7/27/93 to report own old value
       IF (MOVEN - 2) 1,4,2
 1     GOOD = 1.0
       BAD = 0.0
@@ -1332,7 +1332,7 @@ c     END
     FUNCTION K73R(J,M,K,L,R, JA)
 C BY GEORGE ZIMMERMAN
 C TYPED BY JM 3/20/79
-    k73r=ja    ! Added 7/27/93 to report own old value
+      k73r=ja    ! Added 7/27/93 to report own old value
       IF (M .GT. 1) GOTO 10
       IAGGD = 4
       IDUNU = 0
@@ -1362,7 +1362,7 @@ C TYPED BY JM 3/20/79
     FUNCTION K55R(J,M,K,L,R, JA)
 C BY STEVE NEWMAN
 C TYPED BY J|M
-    k55r=ja    ! Added 7/27/93 to report own old value
+      k55r=ja    ! Added 7/27/93 to report own old value
     IF (M .NE. 1) GOTO 10
 C INITIAL BELEIFS
     ALPHA = 1.0
@@ -1418,7 +1418,7 @@ C TYPED BY JM 3/27/79, COR BY AX 3/28/79
       INTEGER C,T4,T5
       REAL L4(8,2)
       DIMENSION X(8)
-    k81r=ja    ! Added 7/27/93 to report own old value
+      k81r=ja    ! Added 7/27/93 to report own old value
       IF (M .EQ. 81 .AND. K .EQ. L .AND. K .EQ. 237) T0 = 1
       IF (M .NE. 1) GOTO 555
       DO 535 C = 1,8
@@ -1550,7 +1550,7 @@ c moved "GOSUB1200" in proper places to avoid compiler error.7/29/93
 C BY E E H SCHURMANN
 C EDITED FROM BASIC BY AX 3/25/79
 C TYPED BY JM 3/31/79
-    k87r=ja    ! Added 7/27/93 to report own old value
+      k87r=ja    ! Added 7/27/93 to report own old value
       IF (M .EQ. 1) GOTO 695
       S = 2 * J + H + 1
       IF (Z .EQ. 1) GOTO 630
@@ -1580,7 +1580,7 @@ C TYPED BY JM 3/31/79
 C BY HENRY NUSSBACHER 1/30/79
 C TYPED BY JM
       INTEGER C(10),D,Z
-    k53r=ja    ! Added 7/27/93 to report own old value
+      k53r=ja    ! Added 7/27/93 to report own old value
 510   IF (M .GT. 10) GOTO 610
 512   C(M) = J
 520   GOTO 810
@@ -1619,7 +1619,7 @@ C NOW CHECK ON PLAYER'S PREVIOUS 10 MOVES
       FUNCTION K65R(J,M,K,L,R, JA)
 C BY MARK F. BATELL
 C TYPED BY JM 3/15/79
-    k65r=ja    ! Added 7/27/93 to report own old value
+      k65r=ja    ! Added 7/27/93 to report own old value
       IF (M .EQ. 1) GOTO 10
       GOTO 20
 10    LASTD = 0
@@ -1646,7 +1646,7 @@ C TYPED BY JM 3/15/79
     FUNCTION K34R(J,M,K,L,R, JA)
 C BY JAMES W. FRIEDMAN
 C TYPED FROM FORTRAN BY AX, 1.17,79
-    k43r=ja    ! Added 7/27/93 to report own old value
+      k43r=ja    ! Added 7/27/93 to report own old value
       K34R=0
       IF(M.EQ.1) JT=0
       JT=JT+J
@@ -1877,7 +1877,7 @@ C PLAY TIT FOR TWO TATS
       RETURN
 C EVALUATE PLAY
 120      CONTINUE
- 
+
 cc ax test
 c   if (m.eq. 51) write(6,7120) m, step, substp
 c7120   format(' test 7120 after 120. m, step, substp', 3i3)
@@ -1913,7 +1913,7 @@ c Next statement broken up to prevent complier error. Two clauses separated.Ax 7
 c   IF (STEP.NE.3 .AND. OK(STEP+1).EQ.0 .AND.
 c    1(TATCNT.GE.4 .OR. TITCNT.EQ.0))
 c    1 STEP=STEP+1
-    if (step.eq.3) goto 777       ! if step=3 skip next test
+      if (step.eq.3) goto 777       ! if step=3 skip next test
     IF ( (OK(STEP+1).EQ.0) .AND.
      1(TATCNT.GE.4 .OR. TITCNT.EQ.0))
      1 STEP=STEP+1
@@ -2648,7 +2648,7 @@ C TYPED BY JM 3/16/79
       K71R = 0
 1710  RETURN
       END
-      
+
 cc Here's mod version of k74, early mod version follows with XX after name
     FUNCTION K74R(J,M,K,L,R,JA)
 C BY EDWARD FRIEDLAND
@@ -2779,10 +2779,10 @@ C CHECK FOR RANDOM
       GOTO 60
 40    IF (POLC .GE. POLALT) GOTO 50
 50    K74R = 0
-    k74dummy = 0
+      k74dummy = 0
       RETURN
 60    K74R = 1
-    k74dummy=1
+      k74dummy=1
       RETURN
 c70    K74R = 1 - K74R
 70  K74R = 1-k74dummy
