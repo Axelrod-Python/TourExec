@@ -41,9 +41,9 @@ c Next few lines  are control parameters
       call TIME(timenow)
       write(6,100) Version, day, timenow
 100 format('  Ax TourExec Program Output, Version ',f6.2, '.', 1H, A10, A10)
-    RandomSeed = Jsecnds(0)                     ! uses elapsed time since midnight as random seed
+      RandomSeed = Jsecnds(0)                     ! uses elapsed time since midnight as random seed
 c   RandomSeed=66222                                ! Uses fixed random number
-    Write(6,103) RandomSeed
+      Write(6,103) RandomSeed
 103 format(' RandomSeed = ', i16)
 
       write(6,85) noise
@@ -55,11 +55,11 @@ c   RandomSeed=66222                                ! Uses fixed random number
 105 format(' Move report: 1 means R, 2 means T, 3  means S, 4 means P for column.')
       if (GameReport=1) write(6,101)
 101 format(' Rank  Game RScore CScore #ColR #ColT #ColS #ColP')
-    ITotalColPoints = 0                                 ! Initialize Col's total points
-    Do 30 row= minRow,maxRow                    ! normally 1 to 63
+      ITotalColPoints = 0                                 ! Initialize Col's total points
+      Do 30 row= minRow,maxRow                    ! normally 1 to 63
       rank = row
-    RowPairSc = 0
-    ColPairSc = 0
+      RowPairSc = 0
+      ColPairSc = 0
 
         Do 20 Game = 1,5
             RowGameSc = 0
@@ -110,9 +110,9 @@ C  write game output
 112 format('   ', 10i2, 2H, 10i2, 2H, 10i2, 2H, 10i2)
 20  Continue        ! End Do Game
       if (GameReport=1) write(6, 115) RowPairSc, ColPairSc
-    IRowPairSc(Row) = RowPairSc             !  total over 5 games
-    IColPairSc(Row) = ColPairSc
-    IColTourSc = IColTourSc +ColPairSc  ! running total of col's points
+      IRowPairSc(Row) = RowPairSc             !  total over 5 games
+      IColPairSc(Row) = ColPairSc
+      IColTourSc = IColTourSc +ColPairSc  ! running total of col's points
 115 format(' Totals over 5 games: RowPairSc= ',I7, ' ColPairSc = ', I7)
       if (GameReport=1) write (6, 120)
 120 format()
@@ -121,23 +121,23 @@ C  write game output
 
 C final report: calc tour score, write tour output
 
-    Write(6, 135)
+      Write(6, 135)
 135 format(' Rank    RowSc   ColSc   AveRowSc AveColSc 2ndRndTFT  2ndRndTFT-Col')
-    Do 40 Row = minRow,maxRow
-    IRowTourPairSc = IRowPairSc(Row)/5
-    IColTourPairSc = IColPairSc(Row)/5
-    ITotalColPoints =  ITotalColPoints + IColPairSc(Row)    ! accumulate col points
-    Write(6, 140) Row, IRowPairSc(Row), IColPairSc(Row),IRowTourPairSc,
+      Do 40 Row = minRow,maxRow
+      IRowTourPairSc = IRowPairSc(Row)/5
+      IColTourPairSc = IColPairSc(Row)/5
+      ITotalColPoints =  ITotalColPoints + IColPairSc(Row)    ! accumulate col points
+      Write(6, 140) Row, IRowPairSc(Row), IColPairSc(Row),IRowTourPairSc,
      2 IColTourPairSc, ActualTFTTourSc(Row), ActualTFTTourSc(Row)-IColTourPairSc
 140 format(i6, 4i8, '    ',i8,'    ',i8)
 40  continue        ! end final report
-    TotalColPoints = ITotalColPoints                ! to make floating point (total over 63*5 games)
-    ColTourSc =(TotalColPoints/5 )/63   !   Ave per game over 63 pairs
+      TotalColPoints = ITotalColPoints                ! to make floating point (total over 63*5 games)
+      ColTourSc =(TotalColPoints/5 )/63   !   Ave per game over 63 pairs
       write(6, 150) ColType,  ITotalColPoints, ColTourSc
 150 format(' Col Type= ', i4, '. Col Pts = ', i7, '   Col"s Tour Sc = ', f7.3)
       end   ! Main Program
 C-----------------------------
-    Function KColFunction(J,M,K,L,R,IColType,JB)        ! Look up col rule, return col choice
+      Function KColFunction(J,M,K,L,R,IColType,JB)        ! Look up col rule, return col choice
       if (icoltype. eq. 1) KColFunction= KTitForTatC(J,M,K,L,R)
       if (icoltype .eq. 2) KColFunction= KTF2TC(J,M,K,L,R)
       if (icoltype .eq. 3) KColFunction= KRandomC(J,M,K,L,R)
@@ -145,39 +145,39 @@ C-----------------------------
       return
       end
 c --------------------------------------------------------------------------------
-    Function KTitForTatC(J,M,K,L,R)     ! TFT, Row Rule
-    KTitForTatC = J
-    Return
-    End     ! TFT Col Rule
+      Function KTitForTatC(J,M,K,L,R)     ! TFT, Row Rule
+      KTitForTatC = J
+      Return
+      End     ! TFT Col Rule
 c --------------------------------------------------------------------------------
-    Function KTF2TC(J,M,K,L,R)          !  Tit for Two Tats, Col rule
+      Function KTF2TC(J,M,K,L,R)          !  Tit for Two Tats, Col rule
       if(m .eq. 1)  jold = 0
       ktf2tc = 0
       if ((jold .EQ. 1) .and. (j .eq. 1)) ktf2tc = 1
       jold = j
-    Return
-    End     ! TF2T Col Rule
+      Return
+      End     ! TF2T Col Rule
 c --------------------------------------------------------------------------------
-    Function KRandomC(J,M,K,L,R)        ! Random, Row Rule
-    KRandomC = 0
+      Function KRandomC(J,M,K,L,R)        ! Random, Row Rule
+      KRandomC = 0
       if (R .LE. .5) KRandomC = 1
-    Return
-    End     ! Random Col Rule
+      Return
+      End     ! Random Col Rule
 C --------------------------------------------------------
-    Function KPavlovC(J,M,K,L,R,JB)     ! Pavlov, JB is own (Col) previous move
+      Function KPavlovC(J,M,K,L,R,JB)     ! Pavlov, JB is own (Col) previous move
 c   coded by Ax 7/22-3/93. Assumes C on first move.
-    KPavlovC = 1
+      KPavlovC = 1
       if (J .eq. JB) KPavlovC = 0 ! coop iff other's previous choice= own previous ch
 C test3
 c   write(6,81) J, JB
 c81 format(2i3, 'j,jb from test3')
-    Return
+      Return
       end
 c------------------------------------------
 
 
 c---------------------------------------------------------
-    Function KRowFunction(J,M,K,L,R,iRow,JA)        ! Look up row rule, return rowchoice
+      Function KRowFunction(J,M,K,L,R,iRow,JA)        ! Look up row rule, return rowchoice
 c add JA to row fcns to report their own previous move, 7/23/93
       if (irow&gt;32 ) goto 133
       if (irow&gt;16 ) goto 117
@@ -273,11 +273,11 @@ c add JA to row fcns to report their own previous move, 7/23/93
       if(irow=62) KRowFunction = K93R(J,M,K,L,R,JA)
       if(irow=63) KRowFunction = K36R(J,M,K,L,R,JA)
       return
-    END
+      END
 c----------------------------------------------------
 C====================================================
 C Nice Rules, cut and pasted 7/27/93 (NOT Nice Rule list next)
-    FUNCTION K92R(J,M,K,L,R, JA)
+      FUNCTION K92R(J,M,K,L,R, JA)
 C BY ANATOL RAPOPORT
 C TYPED BY AX 3/27/79 (SAME AS ROUND ONE TIT FOR TAT)
 c replaced by actual code, Ax 7/27/93
@@ -288,7 +288,7 @@ c   K92R=ITFTR(J,M,K,L,T,R)
 c test 7/30
 c   write(6,77) j, k92r
 c77 format(' test k92r. j,k92r: ', 2i3)
-    RETURN
+      RETURN
      END
       FUNCTION K61R(ISPICK,ITURN,K,L,R, JA)
 C BY DANNY C. CHAMPION
@@ -323,7 +323,7 @@ C INITIALIZE FIRST MOVE
          GO TO 500
 20    IF(MOVEN.EQ.2)GOTO 25
 C UPDATE MOVE HISTORY
-    MHIST(I2PCK+1,JPICK+1)=MHIST(I2PCK+1,JPICK+1)+1
+      MHIST(I2PCK+1,JPICK+1)=MHIST(I2PCK+1,JPICK+1)+1
 25    IF(IDEF.EQ.0)GOTO 30
 C OPPONENT HAS BEEN PROVED "RANDOM" OR
 C "DEFECTIVE",I DEFECT FOR 25 MOVES
@@ -608,8 +608,8 @@ C DEFECTIONS HAVE A HALF-LIFE OF ONE ROUND
       K35R = 0
       IF (FLACK.GT.R) K35R=1
       RETURN
-    END
-    FUNCTION K68R(J,M,K,L,R, JA)
+      END
+      FUNCTION K68R(J,M,K,L,R, JA)
 C BY FRANSOIS LEYVRAZ
 C EDITED FROM BASIC BY AX, 3/10/79
 C TYPED BY JM 3/16/79
@@ -635,7 +635,7 @@ C TYPED BY JM 3/16/79
 650   J2 = J1
       J1 = J
       RETURN
-    END
+      END
       FUNCTION K72R(J,M,K,L,R, JA)
 C BY EDWARD C WHITE, JR.
 C TYPED BY JM 3/22/79; COR BY AX 3/31/79
@@ -665,7 +665,7 @@ C TYPED FROM FORTRAN BY AX, 1/26/79
        FUNCTION K83R(JPICK,MOVEN,I,J,RAND, JA)
 C BY PAUL E BLACK
 C TYPED BY JM 3/31/79
-    DIMENSION JHIS(5)
+      DIMENSION JHIS(5)
       k83r=ja    ! Added 7/27/93 to report own old value
       IF (MOVEN .GT. 5) GOTO 20
       IF (MOVEN .NE. 1) GOTO 10
@@ -682,8 +682,8 @@ C TYPED BY JM 3/31/79
       K83R = 0
       IF (RAND * 25 .LT. JTOT * JTOT - 1) K83R = 1
       RETURN
-    END
-    FUNCTION K64R(J,M,K,L,R, JA)
+      END
+      FUNCTION K64R(J,M,K,L,R, JA)
 C BY BRIAN YAMACHI
 C EDITED FROM BASIC BY AX, 2/28/79
 C TYPED BY JM 3/1/79
@@ -737,37 +737,37 @@ C TYPED BY JM 3/16/80
       GOTO 95
 90    K66R = 0
 95    RETURN
-    END
-    FUNCTION K58R(J,M,K,L,R, JA)
+      END
+      FUNCTION K58R(J,M,K,L,R, JA)
 C BY GLEN ROWSAM
 C TYPED BY JM
       k58r=ja    ! Added 7/27/93 to report own old value
-    IF (M .GT. 1) GOTO 99
-    KAM = 0
-    NPHA = 0
+      IF (M .GT. 1) GOTO 99
+      KAM = 0
+      NPHA = 0
 99  IF (KAM .GT. 6) GOTO 87
-    IF (NPHA .GE. 1) GOTO 89
-    IF ((M / 18) * 18 .EQ. M .AND. KAM .GT. 2) KAM = KAM - 1
-    IF ((M / 6) * 6 .NE. M) GOTO 88
-    IF (K .LT. M) GOTO 10
-    IF (K * 10 .LT. M * 15) GOTO 11
-    IF (K .LT. M * 2) GOTO 12
-    IF (K * 10 .LT. M * 25) GOTO 13
-    GOTO 88
+      IF (NPHA .GE. 1) GOTO 89
+      IF ((M / 18) * 18 .EQ. M .AND. KAM .GT. 2) KAM = KAM - 1
+      IF ((M / 6) * 6 .NE. M) GOTO 88
+      IF (K .LT. M) GOTO 10
+      IF (K * 10 .LT. M * 15) GOTO 11
+      IF (K .LT. M * 2) GOTO 12
+      IF (K * 10 .LT. M * 25) GOTO 13
+      GOTO 88
 10  KAM = KAM + 2
 11  KAM = KAM + 1
 12  KAM = KAM + 1
 13  KAM = KAM + 1
-    NPHA = 2
-    GOTO 87
+      NPHA = 2
+      GOTO 87
 89  NPHA = NPHA - 1
-    IF (NPHA .EQ. 0) GOTO 87
+      IF (NPHA .EQ. 0) GOTO 87
 88    K58R = 0
-    GOTO 86
+      GOTO 86
 87    K58R = 1
 86  RETURN
-    END
-    FUNCTION K88R(J,M,K,L,R, JA)
+      END
+      FUNCTION K88R(J,M,K,L,R, JA)
 C BY SCOTT APPOLD
 C EDITED FROM NEAR-FORTRAN BY AX 3/27/79
 C TYPED BY JM 3/31/79
@@ -816,7 +816,7 @@ C  EDITED FROM BASIC BY AX, 1.17.79
       IF (A .LT..5) K31R=0
       RETURN
       END
-    FUNCTION K90R(J,M,K,L,R, JA)
+      FUNCTION K90R(J,M,K,L,R, JA)
 C BY JOHN MAYNARD SMITH
 C TYPED BY AX 3/27/79 (SAME AS ROUND ONE TIT FOR TWO TATS)
       k90r=ja    ! Added 7/27/93 to report own old value
@@ -826,7 +826,7 @@ C recoded by Ax 7/27/93
       if((jold.eq.1).and.(j.eq.1)) k90r=1
       jold=j
      RETURN
-    END
+      END
       FUNCTION K79R(J,M,K,L,R, JA)
 C BY DENNIS AMBUEHL AND KEVIN HICKEY
 C FROM CARDS BY JM 3/16/79
@@ -850,8 +850,8 @@ C      COOPERATES IF OPPONENT COOPERATED ON MAJORITY OF LAST PLAYS
       RETURN
  4000 K79R = J
       GO TO 2000
-    END
-    FUNCTION K86R(JPICK,MOVEN,ISCORE,JSCORE,RANDOM, JA)
+      END
+      FUNCTION K86R(JPICK,MOVEN,ISCORE,JSCORE,RANDOM, JA)
 C BY BERNARD GROFMAN
 C FROM CARDS BY JM 3/27/79
         DIMENSION IOPPNT(999)
@@ -874,8 +874,8 @@ C FROM CARDS BY JM 3/27/79
         IF (MYOLD .EQ. 1 .AND. IPREV7 .LE. 1) K86R = 0
         IF (MYOLD .EQ. 1 .AND. IPREV7 .GT. 1) K86R = 1
         RETURN
-    END
-    FUNCTION K91R(J,M,K,L,R, JA)
+      END
+      FUNCTION K91R(J,M,K,L,R, JA)
 C BY JONATHAN PINKLEY
 C MODIFIED FROM K15C BY JM 3/27/79
       DIMENSION IPOL(11,4), QC(4), QN(4), E(11)
@@ -1196,8 +1196,8 @@ c Ax added ()
       RETURN
  1000 K40R=1
       RETURN
-    END
-    FUNCTION K80R(J,M,K,L,R, JA)
+      END
+      FUNCTION K80R(J,M,K,L,R, JA)
 C BY ROBYN M DAWES AND MARK BATELL
 C TYPED BY JM 3/22/79
       k80r=ja    ! Added 7/27/93 to report own old value
@@ -1224,8 +1224,8 @@ C TYPED BY JM 3/22/79
 30    MODE = 1
 35    K80R = 1
 40    RETURN
-    END
-    FUNCTION K37R(J,M,K,L,R, JA)
+      END
+      FUNCTION K37R(J,M,K,L,R, JA)
 C BY GEORGE LEFEVRE
 C EDITED FROM BASIC BY AX, 2/11/79
 C TYPED BY JM
@@ -1329,7 +1329,7 @@ c     END
 7     RETURN
       END
 
-    FUNCTION K73R(J,M,K,L,R, JA)
+      FUNCTION K73R(J,M,K,L,R, JA)
 C BY GEORGE ZIMMERMAN
 C TYPED BY JM 3/20/79
       k73r=ja    ! Added 7/27/93 to report own old value
@@ -1358,21 +1358,21 @@ C TYPED BY JM 3/20/79
       RETURN
 20    IPAYB = INT(1.6667 * FLOAT(IAGGD + 1))
       RETURN
-    END
-    FUNCTION K55R(J,M,K,L,R, JA)
+      END
+      FUNCTION K55R(J,M,K,L,R, JA)
 C BY STEVE NEWMAN
 C TYPED BY J|M
       k55r=ja    ! Added 7/27/93 to report own old value
-    IF (M .NE. 1) GOTO 10
+      IF (M .NE. 1) GOTO 10
 C INITIAL BELEIFS
-    ALPHA = 1.0
-    BETA = 0.0
-    IOLD = 0
-    QCA = 0
-    QNA = 0
-    QCB = 0
-    QNB = 0
-    MUTDEF = 0
+      ALPHA = 1.0
+      BETA = 0.0
+      IOLD = 0
+      QCA = 0
+      QNA = 0
+      QCB = 0
+      QNB = 0
+      MUTDEF = 0
 C UPDATE STATS OF HIS CONTINGENCIES
 10    IF (M .LE. 2) GOTO 30
       IF (IOLD .EQ. 1) GOTO 20
@@ -1396,22 +1396,22 @@ C DEFECT GIVES 0
       GOTO 70
 C POLC BEST, COOPERATIVE
 50    K55R = 0
-    RETURN
+      RETURN
 C BEST TO DEFECT
 60    K55R = 1
       IF (J .EQ. 0 .OR. IOLD .EQ. 0) GOTO 100
       MUTDEF = MUTDEF + 1
       IF (MUTDEF .GT. 3) GOTO 110
-    RETURN
+      RETURN
 110   K55R = 0
-    RETURN
+      RETURN
 100   MUTDEF = 0
-    RETURN
+      RETURN
 C POLALT BEST, ALTERNATE C AND D
 70    K55R = 1 - K55R
       RETURN
-    END
-    FUNCTION K81R(J,M,K,L,R, JA)
+      END
+      FUNCTION K81R(J,M,K,L,R, JA)
 C BY MARTYN JONES
 C EDITED FROM BASIC BY AX 3/25/79
 C TYPED BY JM 3/27/79, COR BY AX 3/28/79
@@ -1575,8 +1575,8 @@ C TYPED BY JM 3/31/79
       K87R = 0
       H = 0
       RETURN
-    END
-    FUNCTION K53R(J,M,K,L,R, JA)
+      END
+      FUNCTION K53R(J,M,K,L,R, JA)
 C BY HENRY NUSSBACHER 1/30/79
 C TYPED BY JM
       INTEGER C(10),D,Z
@@ -1642,8 +1642,8 @@ C TYPED BY JM 3/15/79
 80    TOTD = 10
 90    K65R = 1
 100   RETURN
-    END
-    FUNCTION K34R(J,M,K,L,R, JA)
+      END
+      FUNCTION K34R(J,M,K,L,R, JA)
 C BY JAMES W. FRIEDMAN
 C TYPED FROM FORTRAN BY AX, 1.17,79
       k43r=ja    ! Added 7/27/93 to report own old value
@@ -1796,13 +1796,13 @@ C DETERMINE NEXT TURN TO RF HIM
 2000  K47R = MYMOVE
       RETURN
       END
-    FUNCTION K51R(J,M,K,L,R,JA)
+      FUNCTION K51R(J,M,K,L,R,JA)
 C BY JOHN WILLIAM COLBERT
 C TYPED BY JM
-    K51R=JA     ! Added 7/32/93 to report own old value
-    IF (M .GT. 8) GOTO 5
+      K51R=JA     ! Added 7/32/93 to report own old value
+      IF (M .GT. 8) GOTO 5
         K51R = 0
-    IF (M .EQ. 6) K51R = 1
+      IF (M .EQ. 6) K51R = 1
         LASTI = 0
         GOTO 10
 5     K51R = 0
@@ -1812,7 +1812,7 @@ C TYPED BY JM
       IF (J .EQ. 1) K51R = 1
       IF (J .EQ. 1) LASTI = 4
 10  RETURN
-    END
+      END
       FUNCTION K78R(J,M,K,L,R,JA)
 C BY FRED MAUK
 C TYPED BY AX, 3/27/79 (SAME AS ROUND ONE GRAASKAMP)
@@ -1881,7 +1881,7 @@ C EVALUATE PLAY
 cc ax test
 c   if (m.eq. 51) write(6,7120) m, step, substp
 c7120   format(' test 7120 after 120. m, step, substp', 3i3)
-    OLDSTP=STEP
+      OLDSTP=STEP
       OK(STEP)=K-TOTK
       TOTK=K
       SUBSTP=1
@@ -1900,7 +1900,7 @@ C      LET US FIND BEST DEFENSE (HIGHEST SCORE)
 cc ax test
 c   if (m.eq. 51) write(6,71302) m, step, substp, i1, i2, ok(i1), ok(i2)
 c71302  format(' test 71302 After 130. m, step, substp, i1, i2, ok(i1), ok(I2)', 7i3)
-    IF(OK(I1).EQ.0.OR. OK(I2).EQ.0) GOTO 150
+      IF(OK(I1).EQ.0.OR. OK(I2).EQ.0) GOTO 150
       IF(OK(I1).GE.OK(I2)) GOTO 150
       IF(STEP.EQ.I1) STEP=I2
 150      CONTINUE
@@ -1914,7 +1914,7 @@ c   IF (STEP.NE.3 .AND. OK(STEP+1).EQ.0 .AND.
 c    1(TATCNT.GE.4 .OR. TITCNT.EQ.0))
 c    1 STEP=STEP+1
       if (step.eq.3) goto 777       ! if step=3 skip next test
-    IF ( (OK(STEP+1).EQ.0) .AND.
+      IF ( (OK(STEP+1).EQ.0) .AND.
      1(TATCNT.GE.4 .OR. TITCNT.EQ.0))
      1 STEP=STEP+1
 777 continue
@@ -1994,11 +1994,11 @@ C      DO ALL C FOR 5 MOVES TO COOL THINGS OFF
 cc ax test
 c   if (m.eq. 51) write(6,7520) m, step, substp
 c7520   format(' test 7520 after 520. m, step, substp', 3i3)
-    IF(COUNT.NE.0) RETURN
+      IF(COUNT.NE.0) RETURN
       SUBSTP=1
       GOTO 130
       END
-    FUNCTION K67R(J,M,K,L,R,JA)
+      FUNCTION K67R(J,M,K,L,R,JA)
 C EDITED FROM BASIC FROM AX. 3/10/79
 C TYPED BY JM 3/16/80
 C BY CRAIG FEATHERS
@@ -2169,7 +2169,7 @@ C FROM CARDS BY JM 3/16/79
 C BY DAVID A. SMITH
 C EDITED FROM BASIC BY AX,2/11/79
 C TYPED BY JM
-    INTEGER D8,D9
+      INTEGER D8,D9
       K52R=JA       ! Added 7/32/93 to report own old value
       K52R = 0
       IF (M .GT. 1) GOTO 305
@@ -2186,7 +2186,7 @@ C TYPED BY JM
 345 IF (R .GT. .05) GOTO 355
       K52R = 1 - K52R
 355 RETURN
-    END
+      END
       FUNCTION K82R(J,M,K,L,R,JA)
 C BY ROBERT A LEYLAND
 C TYPED BY JM 3/22/79
@@ -2294,7 +2294,7 @@ C TYPED FROM FORTRAN BY AX, 1/26/79
       JOLD=J
       RETURN
       END
-    FUNCTION K62R(J,M,K,L,R,JA)
+      FUNCTION K62R(J,M,K,L,R,JA)
 C BY HOWARD R HOLLANDER
 C TYPED BY JM 2/25/79
       K62R=JA       ! Added 7/32/93 to report own old value
@@ -2347,7 +2347,7 @@ C NOT NICE, DETERMINISTIC, FORGIVING
       K48R = J
       RETURN
       END
-    FUNCTION K50R(J,MOVN,KM,KH,R,JA)
+      FUNCTION K50R(J,MOVN,KM,KH,R,JA)
 C BY RIK
 C TYPED BY JM, CORRECTED BY AX, 2/27/79
       K50R=JA       ! Added 7/32/93 to report own old value
@@ -2355,7 +2355,7 @@ C TYPED BY JM, CORRECTED BY AX, 2/27/79
       IF ((J .EQ. 0) .AND. (R .GE. 0.9)) K50R = 1
       RETURN
       END
-    FUNCTION K77R(JPICK,MOVEN,ISCORE,JSCORE,RANDOM,JA)
+      FUNCTION K77R(JPICK,MOVEN,ISCORE,JSCORE,RANDOM,JA)
       DIMENSION KEXP(5)
 C BY SCOTT FELD
 C TYPED BY JM 3/22/79
@@ -2650,7 +2650,7 @@ C TYPED BY JM 3/16/79
       END
 
 cc Here's mod version of k74, early mod version follows with XX after name
-    FUNCTION K74R(J,M,K,L,R,JA)
+      FUNCTION K74R(J,M,K,L,R,JA)
 C BY EDWARD FRIEDLAND
 C TYPED BY JM 3/20/79
 c temp output
@@ -2801,7 +2801,7 @@ c70    K74R = 1 - K74R
       IF(R.LT..5) K93R=0
       RETURN
       END
-    FUNCTION K36R(J,M,K,L,R,JA)
+      FUNCTION K36R(J,M,K,L,R,JA)
 C BY ROGER HOTZ
 C TYPED BY JM
 C EDITED FROM BASIC BY AX, 2/11/79
@@ -2814,40 +2814,40 @@ C EDITED FROM BASIC BY AX, 2/11/79
       IF (R .LT. PR0BC) K36R = 0
       RETURN
       END
-    Integer FUNCTION GRASR(JPICK, MOVEN, ISCOR, JSCOR, RANDO,JA)
-    DIMENSION NMOV(4)
-    GRASR=JA        ! Added 7/32/93 to report own old value
+      Integer FUNCTION GRASR(JPICK, MOVEN, ISCOR, JSCOR, RANDO,JA)
+      DIMENSION NMOV(4)
+      GRASR=JA        ! Added 7/32/93 to report own old value
 c Next line for debugging
 c   if(moven. eq. 57)  write(6,99) jscor
 c99 format(' TEST from GRASR at move 57. jscor = ', i6)
       IF (MOVEN .NE. 1) GO TO 9997
-    DO 9996 I = 1, 4
-    NMOV(I) = 0
+      DO 9996 I = 1, 4
+      NMOV(I) = 0
 9996    CONTINUE
-    NMOVE = 0
-    IGAME = 0
-    N = 0
+      NMOVE = 0
+      IGAME = 0
+      N = 0
 9997    CONTINUE
-    IF (MOVEN - 1) 25, 25, 26
+      IF (MOVEN - 1) 25, 25, 26
 25  GRASR = 0
-    RETURN
+      RETURN
 26  IF (MOVEN - 51) 1, 2, 3
 1   GRASR = JPICK
-    RETURN
+      RETURN
 2   GRASR = 1
-    RETURN
+      RETURN
 3   IF (MOVEN - 57) 4, 5, 6
 4   IF (MOVEN - 52) 9, 9, 10
 10  NMOV(MOVEN - 52) = MMOVE + JPICK
 9   GRASR = JPICK
-    IF (GRASR -1) 7, 8, 8
+      IF (GRASR -1) 7, 8, 8
 7   MMOVE = 2
-    GO TO 11
+      GO TO 11
 8   MMOVE = 4
 11  RETURN
 5   IF (JSCOR - 135) 19, 19, 20
 20  J = NMOV(2)
-    GO TO (12, 12, 30, 31, 32), J
+      GO TO (12, 12, 30, 31, 32), J
 31  IF (NMOV(1) - 3) 12, 35, 12
 35  IF (NMOV(3) - 3) 12, 16, 12
 32  IF (NMOV(1) - 5) 12, 33, 12
@@ -2856,28 +2856,28 @@ c99 format(' TEST from GRASR at move 57. jscor = ', i6)
 34  IF (NMOV(3) - 4) 12, 40, 12
 40  IF (NMOV(4) - 2) 12, 41, 12
 12  IGAME = 1
-    N = RANDO * 10.0 + 5.0
-    GRASR = 0
-    RETURN
+      N = RANDO * 10.0 + 5.0
+      GRASR = 0
+      RETURN
 16   IGAME = 2
-    GRASR = 0
-    RETURN
+      GRASR = 0
+      RETURN
 19   IGAME = 3
 27   GRASR = 1
-    RETURN
+      RETURN
 41   IGAME = 4
 42   GRASR = 0
-    IF (MOVEN - 118) 44, 43, 43
+      IF (MOVEN - 118) 44, 43, 43
 43  IGAME=2
 44  RETURN
 6   GO TO (21, 22, 27, 42), IGAME
 21  IF (N) 23, 23, 24
 23  GRASR = 1
-    N = RANDO * 10.0 + 5.0
-    RETURN
+      N = RANDO * 10.0 + 5.0
+      RETURN
 24  GRASR = JPICK
-    N = N-1
-    RETURN
+      N = N-1
+      RETURN
 22  GRASR = JPICK
-    RETURN
-    END
+      RETURN
+      END
