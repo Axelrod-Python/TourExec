@@ -1662,10 +1662,10 @@ C TYPED FROM FORTRAN BY AX, 1.17,79
       JT=JT+J
       IF(JT.GT.0) K34R=1
       RETURN
-      END
+      END FUNCTION
 c====================================================
 C Not nice rules in second round of tour (cut and pasted 7/15/93)
-     FUNCTION K75R(J,M,K,L,R,JA)
+      FUNCTION K75R(J,M,K,L,R,JA)
 C BY P D HARRINGTON
 C TYPED BY JM 3/20/79
       DIMENSION HIST(4,2),ROW(4),COL(2),ID(2)
