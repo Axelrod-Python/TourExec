@@ -188,46 +188,46 @@ c add JA to row fcns to report their own previous move, 7/23/93
       if(irow=3) KRowFunction = K42R(J,M,K,L,R,JA)
       if(irow=4) KRowFunction = K49R(J,M,K,L,R,JA)
       return
-105 if(irow=5) KRowFunction = K44R(J,M,K,L,R,JA)
+105   if(irow=5) KRowFunction = K44R(J,M,K,L,R,JA)
       if(irow=6) KRowFunction = K60R(J,M,K,L,R,JA)
       if(irow=7) KRowFunction = K41R(J,M,K,L,R,JA)
       if(irow=8) KRowFunction = K75R(J,M,K,L,R,JA)
       return
-109 if(irow>12) goto 113
+109   if(irow>12) goto 113
       if(irow=9) KRowFunction = K84R(J,M,K,L,R,JA)
       if(irow=10) KRowFunction = K32R(J,M,K,L,R,JA)
       if(irow=11) KRowFunction = K35R(J,M,K,L,R,JA)
       if(irow=12) KRowFunction = K68R(J,M,K,L,R,JA)
       return
-113 if(irow=13) KRowFunction = K72R(J,M,K,L,R,JA)
+113   if(irow=13) KRowFunction = K72R(J,M,K,L,R,JA)
       if(irow=14) KRowFunction = K46R(J,M,K,L,R,JA)
       if(irow=15) KRowFunction = K83R(J,M,K,L,R,JA)
       if(irow=16) KRowFunction = K47R(J,M,K,L,R,JA)
       return
-117     if (irow>24 ) goto 125
+117   if (irow>24 ) goto 125
       if (irow>20 ) goto 121
       if(irow=17) KRowFunction = K64R(J,M,K,L,R,JA)
       if(irow=18) KRowFunction = K51R(J,M,K,L,R,JA)
       if(irow=19) KRowFunction = K78R(J,M,K,L,R,JA)
       if(irow=20) KRowFunction = K66R(J,M,K,L,R,JA)
       return
-121 if(irow=21) KRowFunction = K58R(J,M,K,L,R,JA)
+121   if(irow=21) KRowFunction = K58R(J,M,K,L,R,JA)
       if(irow=22) KRowFunction = K88R(J,M,K,L,R,JA)
       if(irow=23) KRowFunction = K31R(J,M,K,L,R,JA)
       if(irow=24) KRowFunction = K90R(J,M,K,L,R,JA)
       return
-125 if (irow>28 ) goto 129
+125   if (irow>28 ) goto 129
       if(irow=25) KRowFunction = K39R(J,M,K,L,R,JA)
       if(irow=26) KRowFunction = K79R(J,M,K,L,R,JA)
       if(irow=27) KRowFunction = K67R(J,M,K,L,R,JA)
       if(irow=28) KRowFunction = K86R(J,M,K,L,R,JA)
       return
-129 if(irow=29) KRowFunction = K69R(J,M,K,L,R,JA)
+129   if(irow=29) KRowFunction = K69R(J,M,K,L,R,JA)
       if(irow=30) KRowFunction = K91R(J,M,K,L,R,JA)
       if(irow=31) KRowFunction = K57R(J,M,K,L,R,JA)
       if(irow=32) KRowFunction = K70R(J,M,K,L,R,JA)
       return
-133     if (irow>48 ) goto 149
+133   if (irow>48 ) goto 149
       if (irow>40 ) goto 141
       if (irow>36 ) goto 137
       if(irow=33) KRowFunction = K85R(J,M,K,L,R,JA)
@@ -235,41 +235,41 @@ c add JA to row fcns to report their own previous move, 7/23/93
       if(irow=35) KRowFunction = K40R(J,M,K,L,R,JA)
       if(irow=36) KRowFunction = K80R(J,M,K,L,R,JA)
       return
-137 if(irow=37) KRowFunction = K37R(J,M,K,L,R,JA)
+137   if(irow=37) KRowFunction = K37R(J,M,K,L,R,JA)
       if(irow=38) KRowFunction = K56R(J,M,K,L,R,JA)
       if(irow=39) KRowFunction = K43R(J,M,K,L,R,JA)
       if(irow=40) KRowFunction = K59R(J,M,K,L,R,JA)
       return
-141 if(irow>44) goto 145
+141   if(irow>44) goto 145
       if(irow=41) KRowFunction = K73R(J,M,K,L,R,JA)
       if(irow=42) KRowFunction = K55R(J,M,K,L,R,JA)
       if(irow=43) KRowFunction = K81R(J,M,K,L,R,JA)
       if(irow=44) KRowFunction = K87R(J,M,K,L,R,JA)
       return
-145 if(irow=45) KRowFunction = K53R(J,M,K,L,R,JA)
+145   if(irow=45) KRowFunction = K53R(J,M,K,L,R,JA)
       if(irow=46) KRowFunction = K76R(J,M,K,L,R,JA)
       if(irow=47) KRowFunction = K65R(J,M,K,L,R,JA)
       if(irow=48) KRowFunction = K52R(J,M,K,L,R,JA)
       return
-149     if (irow>56 ) goto 157
+149   if (irow>56 ) goto 157
       if (irow>52 ) goto 153
       if(irow=49) KRowFunction = K82R(J,M,K,L,R,JA)
       if(irow=50) KRowFunction = K45R(J,M,K,L,R,JA)
       if(irow=51) KRowFunction = K62R(J,M,K,L,R,JA)
       if(irow=52) KRowFunction = K34R(J,M,K,L,R,JA)
       return
-153 if(irow=53) KRowFunction = K48R(J,M,K,L,R,JA)
+153   if(irow=53) KRowFunction = K48R(J,M,K,L,R,JA)
       if(irow=54) KRowFunction = K50R(J,M,K,L,R,JA)
       if(irow=55) KRowFunction = K77R(J,M,K,L,R,JA)
       if(irow=56) KRowFunction = K89R(J,M,K,L,R,JA)
       return
-157     if (irow>60) goto 161
+157   if (irow>60) goto 161
       if(irow=57) KRowFunction = K63R(J,M,K,L,R,JA)
       if(irow=58) KRowFunction = K54R(J,M,K,L,R,JA)
       if(irow=59) KRowFunction = K33R(J,M,K,L,R,JA)
       if(irow=60) KRowFunction = K71R(J,M,K,L,R,JA)
       return
-161 if(irow=61) KRowFunction = K74R(J,M,K,L,R,JA)
+161   if(irow=61) KRowFunction = K74R(J,M,K,L,R,JA)
       if(irow=62) KRowFunction = K93R(J,M,K,L,R,JA)
       if(irow=63) KRowFunction = K36R(J,M,K,L,R,JA)
       return
@@ -745,7 +745,7 @@ C TYPED BY JM
       IF (M .GT. 1) GOTO 99
       KAM = 0
       NPHA = 0
-99  IF (KAM .GT. 6) GOTO 87
+99    IF (KAM .GT. 6) GOTO 87
       IF (NPHA .GE. 1) GOTO 89
       IF ((M / 18) * 18 .EQ. M .AND. KAM .GT. 2) KAM = KAM - 1
       IF ((M / 6) * 6 .NE. M) GOTO 88
@@ -754,18 +754,18 @@ C TYPED BY JM
       IF (K .LT. M * 2) GOTO 12
       IF (K * 10 .LT. M * 25) GOTO 13
       GOTO 88
-10  KAM = KAM + 2
-11  KAM = KAM + 1
-12  KAM = KAM + 1
-13  KAM = KAM + 1
+10    KAM = KAM + 2
+11    KAM = KAM + 1
+12    KAM = KAM + 1
+13    KAM = KAM + 1
       NPHA = 2
       GOTO 87
-89  NPHA = NPHA - 1
+89    NPHA = NPHA - 1
       IF (NPHA .EQ. 0) GOTO 87
 88    K58R = 0
       GOTO 86
 87    K58R = 1
-86  RETURN
+86    RETURN
       END
       FUNCTION K88R(J,M,K,L,R, JA)
 C BY SCOTT APPOLD
@@ -971,15 +971,15 @@ c update 3 move history
 c coop if 0, 27, 28, 32, 40-4, 46-8, 56-7,59-60,62-63
    8    k57r=1
       if(n-39) 10,110,50
- 10 if(n) 100,100,20
- 20 if(n-28) 30,100,40
- 30 if(n-27) 110,100,100
- 40 if(n-32) 110,100,110
- 50 if(n-45) 100,110,60
- 60 if(n-49) 100,110,70
- 70 if(n-58) 80,110,90
- 80 if(n-55) 110,110,100
- 90 if(n-61) 100,110,100
+ 10   if(n) 100,100,20
+ 20   if(n-28) 30,100,40
+ 30   if(n-27) 110,100,100
+ 40   if(n-32) 110,100,110
+ 50   if(n-45) 100,110,60
+ 60   if(n-49) 100,110,70
+ 70   if(n-58) 80,110,90
+ 80   if(n-55) 110,110,100
+ 90   if(n-61) 100,110,100
  100    k57r = 0
  110    return
       end
@@ -1380,7 +1380,7 @@ C UPDATE STATS OF HIS CONTINGENCIES
       QNA = QNA + 1
       ALPHA = QCA / QNA
       GOTO 30
-20  IF (J .EQ. 0) QCB = QCB + 1
+20    IF (J .EQ. 0) QCB = QCB + 1
       QNB = QNB + 1
       BETA = QCB / QNB
 C SAVE OWN PAST
@@ -1452,7 +1452,7 @@ c put gosub 1200 here to avoid compiler error 7/29/93
       A3 = A1 / A2
       A = 3 * A3
       B = A + A3 + 1
-610 DO 630 C = 1,4
+610   DO 630 C = 1,4
       X(C) = A
 630   X(C + 4) = B
       E0 = 5
@@ -1811,7 +1811,7 @@ C TYPED BY JM
       IF (LASTI .GT. 0) GOTO 10
       IF (J .EQ. 1) K51R = 1
       IF (J .EQ. 1) LASTI = 4
-10  RETURN
+10    RETURN
       END
       FUNCTION K78R(J,M,K,L,R,JA)
 C BY FRED MAUK
@@ -1917,7 +1917,7 @@ c    1 STEP=STEP+1
       IF ( (OK(STEP+1).EQ.0) .AND.
      1(TATCNT.GE.4 .OR. TITCNT.EQ.0))
      1 STEP=STEP+1
-777 continue
+777   continue
 C      IF WE PUNISHED TOO SEVERLY, THEN GO ALL C TO ECOOPERATE
 cc ax test
 c   if (m.eq. 51) write(6,747) m, step, substp
@@ -2175,17 +2175,17 @@ C TYPED BY JM
       IF (M .GT. 1) GOTO 305
       D9 = 0
       D8 = 0
-305 D9 = D9 + 1
+305   D9 = D9 + 1
       IF (J .GT. 0) GOTO 320
       D9 = 0
-320 IF (D9 .LT. 2) GOTO 345
+320   IF (D9 .LT. 2) GOTO 345
       K52R = 1
       IF (D9 .LT. (5+ 3*D8)) GOTO 345
       D9 = 0
       D8 = D8 + 1
-345 IF (R .GT. .05) GOTO 355
+345   IF (R .GT. .05) GOTO 355
       K52R = 1 - K52R
-355 RETURN
+355   RETURN
       END
       FUNCTION K82R(J,M,K,L,R,JA)
 C BY ROBERT A LEYLAND
@@ -2785,7 +2785,7 @@ C CHECK FOR RANDOM
       k74dummy=1
       RETURN
 c70    K74R = 1 - K74R
-70  K74R = 1-k74dummy
+70    K74R = 1-k74dummy
       RETURN
 80    IF (JS4 .EQ. 0) GOTO 15
       IF (JS11 .EQ. 1) GOTO 15
@@ -2829,55 +2829,55 @@ c99   format(' TEST from GRASR at move 57. jscor = ', i6)
       N = 0
 9997    CONTINUE
       IF (MOVEN - 1) 25, 25, 26
-25  GRASR = 0
+25    GRASR = 0
       RETURN
-26  IF (MOVEN - 51) 1, 2, 3
-1   GRASR = JPICK
+26    IF (MOVEN - 51) 1, 2, 3
+1     GRASR = JPICK
       RETURN
-2   GRASR = 1
+2     GRASR = 1
       RETURN
-3   IF (MOVEN - 57) 4, 5, 6
-4   IF (MOVEN - 52) 9, 9, 10
-10  NMOV(MOVEN - 52) = MMOVE + JPICK
-9   GRASR = JPICK
+3     IF (MOVEN - 57) 4, 5, 6
+4     IF (MOVEN - 52) 9, 9, 10
+10    NMOV(MOVEN - 52) = MMOVE + JPICK
+9     GRASR = JPICK
       IF (GRASR -1) 7, 8, 8
-7   MMOVE = 2
+7     MMOVE = 2
       GO TO 11
-8   MMOVE = 4
-11  RETURN
-5   IF (JSCOR - 135) 19, 19, 20
-20  J = NMOV(2)
+8     MMOVE = 4
+11    RETURN
+5     IF (JSCOR - 135) 19, 19, 20
+20    J = NMOV(2)
       GO TO (12, 12, 30, 31, 32), J
-31  IF (NMOV(1) - 3) 12, 35, 12
-35  IF (NMOV(3) - 3) 12, 16, 12
-32  IF (NMOV(1) - 5) 12, 33, 12
-33  IF (NMOV(3) - 5) 12, 16, 12
-30  IF (NMOV(1) - 2) 12, 34, 12
-34  IF (NMOV(3) - 4) 12, 40, 12
-40  IF (NMOV(4) - 2) 12, 41, 12
-12  IGAME = 1
+31    IF (NMOV(1) - 3) 12, 35, 12
+35    IF (NMOV(3) - 3) 12, 16, 12
+32    IF (NMOV(1) - 5) 12, 33, 12
+33    IF (NMOV(3) - 5) 12, 16, 12
+30    IF (NMOV(1) - 2) 12, 34, 12
+34    IF (NMOV(3) - 4) 12, 40, 12
+40    IF (NMOV(4) - 2) 12, 41, 12
+12    IGAME = 1
       N = RANDO * 10.0 + 5.0
       GRASR = 0
       RETURN
-16   IGAME = 2
+16    IGAME = 2
       GRASR = 0
       RETURN
-19   IGAME = 3
-27   GRASR = 1
+19    IGAME = 3
+27    GRASR = 1
       RETURN
-41   IGAME = 4
-42   GRASR = 0
+41    IGAME = 4
+42    GRASR = 0
       IF (MOVEN - 118) 44, 43, 43
-43  IGAME=2
-44  RETURN
-6   GO TO (21, 22, 27, 42), IGAME
-21  IF (N) 23, 23, 24
-23  GRASR = 1
+43    IGAME=2
+44    RETURN
+6     GO TO (21, 22, 27, 42), IGAME
+21    IF (N) 23, 23, 24
+23    GRASR = 1
       N = RANDO * 10.0 + 5.0
       RETURN
-24  GRASR = JPICK
+24    GRASR = JPICK
       N = N-1
       RETURN
-22  GRASR = JPICK
+22    GRASR = JPICK
       RETURN
       END
