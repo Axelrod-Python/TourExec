@@ -299,7 +299,7 @@ c test 7/30
 c   write(6,77) j, k92r
 c77   format(' test k92r. j,k92r: ', 2i3)
       RETURN
-     END
+      END
       FUNCTION K61R(ISPICK,ITURN,K,L,R, JA)
 C BY DANNY C. CHAMPION
 C TYPED BY JM 3/27/79
