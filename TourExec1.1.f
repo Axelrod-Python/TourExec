@@ -72,10 +72,10 @@ c   RandomSeed=66222                                ! Uses fixed random number
             Do 15 Move = 1, Length(Game)
                 RandomNumber = RAN(RandomSeed)
                 RowChoice = KRowFunction(JB,Move, RowGameSc,ColGameSc,RandomNumber,Row,JA)
-                if ( RAN(RandomSeed) &lt; noise ) RowChoice = 1-RowChoice  !  noise happened to Row
+                if ( RAN(RandomSeed) < noise ) RowChoice = 1-RowChoice  !  noise happened to Row
                 RandomNumber = RAN(RandomSeed)
                 ColChoice = KColFunction(JA,Move,ColGameSc,RowGameSc,RandomNumber,ColType,JB)
-                if ( RAN(RandomSeed) &lt; noise ) ColChoice = 1 - ColChoice ! noise happened to Col
+                if ( RAN(RandomSeed) < noise ) ColChoice = 1 - ColChoice ! noise happened to Col
 C temp test:
 c               Write(6, 999) Move, RowChoice, ColChoice
 c999    Format(' move, rowchoice, colchoice ', 3i6)
@@ -179,10 +179,10 @@ c------------------------------------------
 c---------------------------------------------------------
       Function KRowFunction(J,M,K,L,R,iRow,JA)        ! Look up row rule, return rowchoice
 c add JA to row fcns to report their own previous move, 7/23/93
-      if (irow&gt;32 ) goto 133
-      if (irow&gt;16 ) goto 117
-      if (irow&gt;8 ) goto 109
-      if (irow&gt;4 ) goto 105
+      if (irow>32 ) goto 133
+      if (irow>16 ) goto 117
+      if (irow>8 ) goto 109
+      if (irow>4 ) goto 105
       if(irow=1) KRowFunction = K92R(J,M,K,L,R,JA)
       if(irow=2) KRowFunction = K61R(J,M,K,L,R,JA)
       if(irow=3) KRowFunction = K42R(J,M,K,L,R,JA)
@@ -193,7 +193,7 @@ c add JA to row fcns to report their own previous move, 7/23/93
       if(irow=7) KRowFunction = K41R(J,M,K,L,R,JA)
       if(irow=8) KRowFunction = K75R(J,M,K,L,R,JA)
       return
-109 if(irow&gt;12) goto 113
+109 if(irow>12) goto 113
       if(irow=9) KRowFunction = K84R(J,M,K,L,R,JA)
       if(irow=10) KRowFunction = K32R(J,M,K,L,R,JA)
       if(irow=11) KRowFunction = K35R(J,M,K,L,R,JA)
@@ -204,8 +204,8 @@ c add JA to row fcns to report their own previous move, 7/23/93
       if(irow=15) KRowFunction = K83R(J,M,K,L,R,JA)
       if(irow=16) KRowFunction = K47R(J,M,K,L,R,JA)
       return
-117     if (irow&gt;24 ) goto 125
-      if (irow&gt;20 ) goto 121
+117     if (irow>24 ) goto 125
+      if (irow>20 ) goto 121
       if(irow=17) KRowFunction = K64R(J,M,K,L,R,JA)
       if(irow=18) KRowFunction = K51R(J,M,K,L,R,JA)
       if(irow=19) KRowFunction = K78R(J,M,K,L,R,JA)
@@ -216,7 +216,7 @@ c add JA to row fcns to report their own previous move, 7/23/93
       if(irow=23) KRowFunction = K31R(J,M,K,L,R,JA)
       if(irow=24) KRowFunction = K90R(J,M,K,L,R,JA)
       return
-125 if (irow&gt;28 ) goto 129
+125 if (irow>28 ) goto 129
       if(irow=25) KRowFunction = K39R(J,M,K,L,R,JA)
       if(irow=26) KRowFunction = K79R(J,M,K,L,R,JA)
       if(irow=27) KRowFunction = K67R(J,M,K,L,R,JA)
@@ -227,9 +227,9 @@ c add JA to row fcns to report their own previous move, 7/23/93
       if(irow=31) KRowFunction = K57R(J,M,K,L,R,JA)
       if(irow=32) KRowFunction = K70R(J,M,K,L,R,JA)
       return
-133     if (irow&gt;48 ) goto 149
-      if (irow&gt;40 ) goto 141
-      if (irow&gt;36 ) goto 137
+133     if (irow>48 ) goto 149
+      if (irow>40 ) goto 141
+      if (irow>36 ) goto 137
       if(irow=33) KRowFunction = K85R(J,M,K,L,R,JA)
       if(irow=34) KRowFunction = K38R(J,M,K,L,R,JA)
       if(irow=35) KRowFunction = K40R(J,M,K,L,R,JA)
@@ -240,7 +240,7 @@ c add JA to row fcns to report their own previous move, 7/23/93
       if(irow=39) KRowFunction = K43R(J,M,K,L,R,JA)
       if(irow=40) KRowFunction = K59R(J,M,K,L,R,JA)
       return
-141 if(irow&gt;44) goto 145
+141 if(irow>44) goto 145
       if(irow=41) KRowFunction = K73R(J,M,K,L,R,JA)
       if(irow=42) KRowFunction = K55R(J,M,K,L,R,JA)
       if(irow=43) KRowFunction = K81R(J,M,K,L,R,JA)
@@ -251,8 +251,8 @@ c add JA to row fcns to report their own previous move, 7/23/93
       if(irow=47) KRowFunction = K65R(J,M,K,L,R,JA)
       if(irow=48) KRowFunction = K52R(J,M,K,L,R,JA)
       return
-149     if (irow&gt;56 ) goto 157
-      if (irow&gt;52 ) goto 153
+149     if (irow>56 ) goto 157
+      if (irow>52 ) goto 153
       if(irow=49) KRowFunction = K82R(J,M,K,L,R,JA)
       if(irow=50) KRowFunction = K45R(J,M,K,L,R,JA)
       if(irow=51) KRowFunction = K62R(J,M,K,L,R,JA)
@@ -263,7 +263,7 @@ c add JA to row fcns to report their own previous move, 7/23/93
       if(irow=55) KRowFunction = K77R(J,M,K,L,R,JA)
       if(irow=56) KRowFunction = K89R(J,M,K,L,R,JA)
       return
-157     if (irow&gt;60) goto 161
+157     if (irow>60) goto 161
       if(irow=57) KRowFunction = K63R(J,M,K,L,R,JA)
       if(irow=58) KRowFunction = K54R(J,M,K,L,R,JA)
       if(irow=59) KRowFunction = K33R(J,M,K,L,R,JA)
