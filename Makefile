@@ -1,14 +1,34 @@
-# Generate an executable with this name
 TARGET = tourexec
 
-# Define the compiler and flags to pass to that compiler
 CC = gfortran
 CFLAGS = -fno-automatic
 
-# Define the directories for source code and output binary executable
+LINKER = gfortran
+
 SRC_DIR = src
 BIN_DIR = bin
+OBJ_DIR = obj
 
-$(BIN_DIR)/$(TARGET): $(SRC_DIR)/*.f
+SOURCES  := $(wildcard $(SRC_DIR)/*.f)
+OBJECTS  := $(SOURCES:$(SRC_DIR)/%.f=$(OBJ_DIR)/%.o)
+rm       = rm -rf
+
+$(BIN_DIR)/$(TARGET): $(OBJECTS)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -o $@ $<
+	@$(LINKER) $(OBJECTS) -o $@
+	@echo "Linking complete"
+
+$(OBJECTS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.f
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiled "$<" successfully"
+
+.PHONY: clean
+clean:
+	@$(rm) $(OBJ_DIR)
+	@echo "Cleanup complete"
+
+.PHONY: remove
+remove: clean
+	@$(rm) $(BIN_DIR)
+	@echo "Executable removed"
