@@ -12,7 +12,10 @@ and is now available from
 `Robert Axelrod's personal website <http://www-personal.umich.edu/~axe/research/Software/CC/CC2.html>`_.
 
 The original code has been modified in this repository to ensure that it will
-compile successfully using a modern Fortran compiler.
+compile successfully using a modern Fortran compiler. Also, the original single
+file has been split into multiple files, with one for each strategy function,
+so that those can be easily indexed within the
+`Axelrod-Python Documentation <http://axelrod.readthedocs.io/en/stable/reference/overview_of_strategies.html#axelrod-s-second-tournament>`_/
 
 Prerequisites
 -------------
