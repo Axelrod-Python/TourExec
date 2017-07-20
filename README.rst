@@ -1,12 +1,12 @@
 TourExec
 ========
 
-This repository contains the software associated with 
+This repository contains the software associated with
 `Robert Axelrod <http://www-personal.umich.edu/%7Eaxe/>`_'s book `The Complexity of
 Cooperation: Agent-Based Models of Competition and Collaboration
 <http://press.princeton.edu/titles/6144.html>`_ (Princeton University Press).
 
-The code was originally published by the 
+The code was originally published by the
 `University of Michigan Center for the Study of Complex Systems <http://lsa.umich.edu/cscs/>`_
 and is now available from
 `Robert Axelrod's personal website <http://www-personal.umich.edu/~axe/research/Software/CC/CC2.html>`_.
@@ -55,7 +55,7 @@ Clone the repository and compile the Fortran code::
 You should now have a `bin` directory containing the the executable file,
 `tourexec`, which you can run::
 
-	$ cd ../bin
+	$ cd bin
 	$ ./tourexec
 
 Cleanup
