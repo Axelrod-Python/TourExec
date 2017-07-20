@@ -21,11 +21,11 @@ You will need the `make <https://www.gnu.org/software/make/>`_ and
 `gfortran <https://gcc.gnu.org/fortran/>`_ tools installed on your system
 and available from your command line.
 
-To check if you already have them installed:
+To check if you already have them installed::
 
 	$ make -v
 
-Should return something similar to:
+Should return something similar to::
 
 	$ GNU Make 3.81
 	$ Copyright (C) 2006  Free Software Foundation, Inc.
@@ -33,11 +33,11 @@ Should return something similar to:
 	$ There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
 	$ PARTICULAR PURPOSE.
 
-and
+and::
 
 	$ gfortran -v
 
-should return something similar to:
+should return something similar to::
 
 	$ Using built-in specs.
 	$ Thread model: posix
@@ -46,14 +46,14 @@ should return something similar to:
 Installation
 ------------
 
-Clone the repository and compile the Fortran code:
+Clone the repository and compile the Fortran code::
 
 	$ git clone https://github.com/Axelrod-Python/TourExec.git
 	$ cd TourExec
 	$ make
 
 You should now have a `bin` directory containing the the executable file,
-`tourexec`, which you can run:
+`tourexec`, which you can run::
 
 	$ cd ../bin
 	$ ./tourexec
