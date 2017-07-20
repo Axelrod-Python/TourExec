@@ -1,0 +1,36 @@
+      FUNCTION K43R(J,M,K,L,R,JA)
+C BY R.D. ANDERSON
+C TYPED FROM FORTRAN BY AX, 1/25/79
+      K43R=JA       ! Added 7/32/93 to report own old value
+      IF(M.GT.1)GOTO 1
+      NCC=0
+      NCD=0
+      NDC=0
+      NDD=0
+      KOUNT=0
+      MYTWIN=0
+      GOTO 900
+1     IF(M.LT.3)GOTO 3
+      IF(IOLD2.EQ.1)GOTO 2
+      NCC=NCC+1-J
+      NCD=NCD+J
+      GOTO 3
+2     NDC=NDC+1-J
+      NDD=NDD+J
+3     IOLD2=IOLD1
+      IF(M.GE.16)GOTO 4
+      IF(J.EQ.0)GOTO 900
+      IF(KOUNT.GE.3) GOTO 900
+      KOUNT=KOUNT+1
+      GOTO 901
+4     IF(M.EQ.17.AND.J.EQ.1.AND.NCD.EQ.1.AND.NDD.EQ.0) MYTWIN=1
+      IF((NCD*3).GE.(NCC+NCD))GOTO 901
+      IF(M.NE.(4*(M/4))) GOTO 900
+      IF(MYTWIN.EQ.1) GOTO 900
+      IF (NDC.GE.(M/12).OR.NDD.EQ.0) GOTO 901
+900   IOLD1=0
+      GOTO 999
+901   IOLD1=1
+999   K43R = IOLD1
+      RETURN
+      END

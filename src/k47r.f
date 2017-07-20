@@ -1,0 +1,48 @@
+      FUNCTION K47R(J,M,K,L,R,JA)
+C BY RICHARD HUFFORD
+C TYPED BY JM
+      INTEGER NUM,DEN,RF,DEF,COOP,LONG,SHORT,SH2(5)
+      K47R=JA       ! Added 7/32/93 to report own old value
+      IF (M .GT. 1) GOTO 100
+C INITIALIZE
+      NUM = 2
+      DEN = 2
+      RF = 20
+      DEF = 1
+      COOP = 0
+      LONG = 1
+      SHORT = 5
+      DO 10 N = 1,5
+      SH2(N) = 1
+10    CONTINUE
+      N = 1
+      MYLAST = 0
+      MYMOVE = 0
+100   IF ((M .LE. RF) .AND. (J .EQ. DEF)) RF = M + (20 * NUM) / DEN + 1
+C DETERMINE OPPONENT'S LONG AND SHORT TERM SENSE
+200   N = MOD(N,4) + 1
+      SHORT = SHORT - SH2(N)
+      IF (J .EQ. MYLAST) GOTO 500
+      SH2(N) = 0
+      GOTO 1000
+500   LONG = LONG + 1
+      SHORT = SHORT + 1
+      SH2(N) = 1
+1000  MYLAST= MYMOVE
+C MOVE
+      MYMOVE = J
+      IF ((LONG .LT. .625 * M) .OR. (SHORT .LT. 3)) MYMOVE = DEF
+      IF ((LONG .GT. .9 * M) .AND. (SHORT .EQ. 5)) MYMOVE = COOP
+C SHOULD I RF HOM THIS TURN
+      IF (M .EQ. RF) MYMOVE = DEF
+      IF (M .LT. RF + 2) GOTO 2000
+C I RF-D HIM 2 TURNS AGO. MUST NOT GET IN A FIGHT OVER NOTHING
+      MYMOVE = COOP
+C DETERMINE SUCCESS OF RF
+      NUM = NUM + J
+      DEN = DEN + 1 - J
+C DETERMINE NEXT TURN TO RF HIM
+      RF = M + (20 * NUM) / DEN + 1
+2000  K47R = MYMOVE
+      RETURN
+      END

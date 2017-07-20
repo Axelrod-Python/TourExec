@@ -1,0 +1,52 @@
+      FUNCTION K55R(J,M,K,L,R, JA)
+C BY STEVE NEWMAN
+C TYPED BY J|M
+      k55r=ja    ! Added 7/27/93 to report own old value
+      IF (M .NE. 1) GOTO 10
+C INITIAL BELEIFS
+      ALPHA = 1.0
+      BETA = 0.0
+      IOLD = 0
+      QCA = 0
+      QNA = 0
+      QCB = 0
+      QNB = 0
+      MUTDEF = 0
+C UPDATE STATS OF HIS CONTINGENCIES
+10    IF (M .LE. 2) GOTO 30
+      IF (IOLD .EQ. 1) GOTO 20
+      IF (J .EQ. 0) QCA = QCA + 1
+      QNA = QNA + 1
+      ALPHA = QCA / QNA
+      GOTO 30
+20    IF (J .EQ. 0) QCB = QCB + 1
+      QNB = QNB + 1
+      BETA = QCB / QNB
+C SAVE OWN PAST
+30    IOLD = K55R
+C CALCULATE RELATIVE EXPECTATIONS OF POLICIES
+C DEFECT GIVES 0
+      POLC = 6 * ALPHA - 9 * BETA - 2
+      POLALT = 4 * ALPHA - 6 * BETA  - 1
+      IF (POLC .GE. 0) GOTO 40
+      IF (POLALT .GE. 0) GOTO 70
+      GOTO 60
+40    IF (POLC .GE. POLALT) GOTO 50
+      GOTO 70
+C POLC BEST, COOPERATIVE
+50    K55R = 0
+      RETURN
+C BEST TO DEFECT
+60    K55R = 1
+      IF (J .EQ. 0 .OR. IOLD .EQ. 0) GOTO 100
+      MUTDEF = MUTDEF + 1
+      IF (MUTDEF .GT. 3) GOTO 110
+      RETURN
+110   K55R = 0
+      RETURN
+100   MUTDEF = 0
+      RETURN
+C POLALT BEST, ALTERNATE C AND D
+70    K55R = 1 - K55R
+      RETURN
+      END

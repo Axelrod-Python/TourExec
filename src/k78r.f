@@ -1,0 +1,8 @@
+      FUNCTION K78R(J,M,K,L,R,JA)
+C BY FRED MAUK
+C TYPED BY AX, 3/27/79 (SAME AS ROUND ONE GRAASKAMP)
+      INTEGER GRASR
+c Time parameter elminated Ax 7/93
+      K78R=GRASR(J,M,K,L,R,JA)
+      RETURN
+      END

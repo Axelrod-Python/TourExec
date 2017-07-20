@@ -1,0 +1,19 @@
+       FUNCTION K49R(J,M,K,L,R, JA)
+C BY ROB CAVE
+C TYPED BY JM
+      k49r=ja    ! Added 7/27/93 to report own old value
+      IF (M .EQ. 1) JDSUM = 0
+C JDSUM IS THE TOTAL NUMBER OF DEFECTIONS SO FAR
+      IF (J .EQ. 1) JDSUM = JDSUM + 1
+      JDPC = (100 * JDSUM) / M
+C JDPC IS THE PERCENTAGE OF DEFECTIONS SO FAR
+      IF (J .EQ. 0) K49R = 0
+      IF ((J .EQ. 1) .AND. (JDSUM .LE. 17)) K49R = INT(R + .5)
+      IF ((J .EQ. 1) .AND. (JDSUM .GT. 17)) K49R = 1
+C IF OPONENT IS OVERLU DEFECTIVE OR APPEARS
+C TO BE RANDOM, THEN GIVE UP
+      IF ((M .GT. 19) .AND. (JDPC .GT. 79)) K49R = 1
+      IF ((M .GT. 29) .AND. (JDPC .GT. 65)) K49R = 1
+      IF ((M .GT. 39) .AND. (JDPC .GT. 39)) K49R = 1
+      RETURN
+      END
