@@ -57,3 +57,16 @@ You should now have a `bin` directory containing the the executable file,
 
 	$ cd ../bin
 	$ ./tourexec
+
+Cleanup
+-------
+
+Compiling the executable file will create some intermediary object files in an
+`obj` directory. These can safely be removed using::
+
+	$ make clean
+
+There is also a command to remove the executable itself as well as the object
+files::
+
+	$ make remove
