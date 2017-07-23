@@ -1,3 +1,6 @@
+.. image:: https://zenodo.org/badge/97823268.svg
+   :target: https://zenodo.org/badge/latestdoi/97823268
+
 TourExec
 ========
 
