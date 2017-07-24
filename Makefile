@@ -2,7 +2,7 @@ EXECUTABLE = tourexec
 LIBRARY = libstrategies.so
 
 COMPILER = gfortran
-CFLAGS = -fno-automatic
+CFLAGS = -fno-automatic -fPIC
 
 LINKER = gfortran
 
