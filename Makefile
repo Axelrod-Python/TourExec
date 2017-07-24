@@ -25,8 +25,16 @@ TOURNAMENT_OBJECTS := $(TOURNAMENT_SOURCES:$(TOURNAMENT_SRC_DIR)/%.f=$(TOURNAMEN
 
 rm       = rm -rf
 
-.PHONY: all clean remove
-all: $(BIN_DIR)/$(EXECUTABLE) 
+.PHONY: all install uninstall clean remove
+all: $(BIN_DIR)/$(EXECUTABLE)
+
+install: $(BIN_DIR)/$(EXECUTABLE)
+	install -m 0755 $(BIN_DIR)/$(LIBRARY) /usr/local/lib
+	install -m 0755 $(BIN_DIR)/$(EXECUTABLE) /usr/local/bin
+
+uninstall:
+	rm /usr/local/lib/$(LIBRARY)
+	rm /usr/local/bin/$(EXECUTABLE)
 
 # Link the tournament object files and the strategies shared object file to create the executable
 $(BIN_DIR)/$(EXECUTABLE): $(TOURNAMENT_OBJECTS) $(BIN_DIR)/$(LIBRARY)

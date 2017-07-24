@@ -61,8 +61,20 @@ Clone the repository and compile the Fortran code::
 You should now have a `bin` directory containing the the executable file,
 `tourexec`, which you can run::
 
-	$ cd bin
-	$ ./tourexec
+	$ bin/tourexec
+
+You can also chose to install the executable (and the associated library file)
+to standard locations on your local machine::
+
+	$ make install
+
+The executable can now be run without having to specify its location::
+
+	$ tourexec
+
+To remove both the executable and the libary from your machine, use::
+
+	$ make uninstall 
 
 Cleanup
 -------
@@ -72,7 +84,7 @@ Compiling the executable file will create some intermediary object files in an
 
 	$ make clean
 
-There is also a command to remove the executable itself as well as the object
+There is also a command to remove the `bin` directory as well as the object
 files::
 
 	$ make remove
