@@ -95,34 +95,34 @@ Python
 
 The strategy functions are available from within a shared object file,
 `libstrategies.so` and can therefore be called from within Python. An example
-of how to call TitForTat::
+of how to call TitForTat:
 
 .. code:: python
 
-	from ctypes import cdll, c_int, c_float, byref, POINTER
-	# load the strategies library
-	strategies = cdll.LoadLibrary('libstrategies.so')
-
-	# Use the titfortat strategy from the library
-	tft = strategies.ktitfortatc_
-
-	# define the types of the function arguments and return value
-	tft.argtypes = (
-	    POINTER(c_int), POINTER(c_int), POINTER(c_int), POINTER(c_int),
-	    POINTER(c_float))
-	tft.restype = c_int
-
-	# Variables for the argument to pass
-	my_previous = c_int(0)  # 0 is cooperation, 1 is defection
-	their_previous = c_int(1)
-	move_number = c_int(1)
-	my_score = c_int(0)
-	their_score = c_int(0)
-	noise = c_float(0)
-
-	# Call the strategy passing the arguments by reference
-	result = tft(
-	    byref(their_previous), byref(move_number), byref(my_score),
-	    byref(their_score), byref(noise), byref(my_previous))
-
-	print(result)
+    from ctypes import cdll, c_int, c_float, byref, POINTER
+    # load the strategies library
+    strategies = cdll.LoadLibrary('libstrategies.so')
+    
+    # Use the titfortat strategy from the library
+    tft = strategies.ktitfortatc_
+    
+    # define the types of the function arguments and return value
+    tft.argtypes = (
+        POINTER(c_int), POINTER(c_int), POINTER(c_int), POINTER(c_int),
+        POINTER(c_float))
+    tft.restype = c_int
+    
+    # Variables for the argument to pass
+    my_previous = c_int(0)  # 0 is cooperation, 1 is defection
+    their_previous = c_int(1)
+    move_number = c_int(1)
+    my_score = c_int(0)
+    their_score = c_int(0)
+    noise = c_float(0)
+    
+    # Call the strategy passing the arguments by reference
+    result = tft(
+        byref(their_previous), byref(move_number), byref(my_score),
+        byref(their_score), byref(noise), byref(my_previous))
+    
+    print(result)
