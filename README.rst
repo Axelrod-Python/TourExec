@@ -52,27 +52,27 @@ should return something similar to::
 Installation
 ------------
 
-Clone the repository and compile the Fortran code::
+Clone the repository, compile the Fortran code and install the executables::
 
 	$ git clone https://github.com/Axelrod-Python/TourExec.git
 	$ cd TourExec
 	$ make
-
-You should now have a `bin` directory containing the the executable file,
-`tourexec`, which you can run::
-
-	$ bin/tourexec
-
-You can also chose to install the executable (and the associated library file)
-to standard locations on your local machine::
-
 	$ make install
 
-The executable can now be run without having to specify its location::
+You should now be able to run the tournament::
 
 	$ tourexec
 
-To remove both the executable and the libary from your machine, use::
+On linux, you may get an error similar to::
+
+	$ error while loading shared libraries: libstrategies.so:
+
+which means that you need to add a directory to your $LD_LIBRARY_PATH
+environment variable::
+
+	$ export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:/usr/local/lib
+
+To remove both the executables from your machine, use::
 
 	$ make uninstall 
 
