@@ -2,7 +2,7 @@
 C BY EDWARD FRIEDLAND
 C TYPED BY JM 3/20/79
 c k74dummy added by ax 7/22/93
-      K74R=JA       ! Added 7/32/93 to report own old value
+      K74RXX=JA       ! Added 7/32/93 to report own old value
       IF (M .NE. 1) GOTO 9
       ALPHA = 1.0
       BETA = .3
@@ -11,7 +11,7 @@ c k74dummy added by ax 7/22/93
       QNA = 0
       QCB = 0
       QNB = 0
-      K74R = 0
+      K74RXX = 0
       k74dummy=0
       JSW = 0
       JS4 = 0
@@ -21,7 +21,7 @@ c k74dummy added by ax 7/22/93
       JT = 0
       JSM = 1
 9     IF (JR .NE. 1) GOTO 10
-      K74R = 1
+      K74RXX = 1
       k74dummy=1
       RETURN
 10    IF (M .LE. 2) GOTO 30
@@ -54,14 +54,14 @@ C CHECK FOR RANDOM
       IF (POLALT .GE. 0) GOTO 70
       GOTO 60
 40    IF (POLC .GE. POLALT) GOTO 50
-50    K74R = 0
+50    K74RXX = 0
       k74dummy = 0
       RETURN
-60    K74R = 1
+60    K74RXX = 1
       k74dummy=1
       RETURN
 c70    K74R = 1 - K74R
-70    K74R = 1-k74dummy
+70    K74RXX = 1-k74dummy
       RETURN
 80    IF (JS4 .EQ. 0) GOTO 15
       IF (JS11 .EQ. 1) GOTO 15
