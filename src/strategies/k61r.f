@@ -2,6 +2,7 @@
 C BY DANNY C. CHAMPION
 C TYPED BY JM 3/27/79
       k61r=ja    ! Added 7/27/93 to report own old value
+      IF (ITURN .EQ. 1) ICOOP = 0  ! Added 10/8/2017 to fix bug for multiple runs
       IF (ITURN .EQ. 1) K61R = 0
       IF (ISPICK .EQ. 0) ICOOP = ICOOP + 1
       IF (ITURN .LE. 10) RETURN
